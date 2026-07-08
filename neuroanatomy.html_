@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Neuroanatomy Study Notes — Clinically Oriented Anatomy (Moore, Agur & Dalley)</title>
+<style>
+  :root{
+    --ink:#1d232b; --sub:#4b5563; --line:#e2e5ea; --accent:#3b5bdb; --accent-soft:#eef1fd;
+    --warn-bg:#fff7ed; --warn-line:#f4a94c; --clin-bg:#f4f8f6; --clin-line:#2f9e6e;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+    color:var(--ink); max-width:860px; margin:0 auto; padding:2.5rem 1.5rem 6rem;
+    line-height:1.6; background:#fdfdfc;
+  }
+  h1{font-size:1.9rem; margin-bottom:.2rem;}
+  .subtitle{color:var(--sub); font-size:1rem; margin-top:0; font-style:italic;}
+  .caveat{
+    background:var(--warn-bg); border-left:4px solid var(--warn-line);
+    padding:1rem 1.2rem; border-radius:4px; margin:1.5rem 0 2.5rem; font-size:.95rem;
+  }
+  .caveat strong{display:block; margin-bottom:.3rem; font-family:Arial, sans-serif; font-size:.85rem; text-transform:uppercase; letter-spacing:.04em; color:#92400e;}
+  nav{
+    background:var(--accent-soft); border-radius:8px; padding:1.2rem 1.5rem; margin-bottom:2.5rem;
+    font-family:Arial, sans-serif; font-size:.92rem;
+  }
+  nav strong{display:block; margin-bottom:.5rem; font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; color:var(--accent);}
+  nav ol{margin:0; padding-left:1.2rem;}
+  nav a{color:var(--ink); text-decoration:none;}
+  nav a:hover{text-decoration:underline;}
+  section{margin-bottom:3rem; padding-top:1rem;}
+  h2{
+    font-family:Arial, sans-serif; font-size:1.3rem; color:var(--accent);
+    border-bottom:2px solid var(--accent); padding-bottom:.4rem; margin-top:0;
+  }
+  h3{font-family:Arial, sans-serif; font-size:1.05rem; margin-top:1.8rem; margin-bottom:.5rem;}
+  h4{font-family:Arial, sans-serif; font-size:.95rem; margin-bottom:.3rem; color:#334;}
+  .pg{
+    display:inline-block; font-family:Arial, sans-serif; font-size:.72rem; font-weight:bold;
+    color:var(--accent); background:var(--accent-soft); border-radius:10px; padding:.1rem .55rem;
+    margin-left:.4rem; vertical-align:middle;
+  }
+  .clin{
+    background:var(--clin-bg); border-left:4px solid var(--clin-line); border-radius:4px;
+    padding:.8rem 1.1rem; margin:.9rem 0; font-size:.93rem;
+  }
+  .clin::before{
+    content:"CLINICAL CORRELATION"; display:block; font-family:Arial, sans-serif; font-size:.7rem;
+    letter-spacing:.05em; color:var(--clin-line); font-weight:bold; margin-bottom:.3rem;
+  }
+  table{width:100%; border-collapse:collapse; margin:1rem 0; font-size:.92rem;}
+  th,td{border:1px solid var(--line); padding:.5rem .7rem; text-align:left; vertical-align:top;}
+  th{background:var(--accent-soft); font-family:Arial, sans-serif; font-size:.82rem;}
+  tr:nth-child(even){background:#fafafa;}
+  ul, ol{padding-left:1.4rem;}
+  li{margin-bottom:.3rem;}
+  .fig-note{font-size:.85rem; color:var(--sub); font-style:italic;}
+  footer{margin-top:4rem; padding-top:1.5rem; border-top:1px solid var(--line); font-size:.85rem; color:var(--sub); font-family:Arial, sans-serif;}
+  .backtop{font-family:Arial, sans-serif; font-size:.78rem;}
+  .backtop a{color:var(--accent); text-decoration:none;}
+</style>
+</head>
+<body>
+
+<h1>Neuroanatomy Study Notes</h1>
+<p class="subtitle">Paraphrased study notes built from <em>Clinically Oriented Anatomy</em>, 8th ed. (Moore, Agur &amp; Dalley) — organized to match your Anatomy II course outline. Page numbers refer to the PDF page count.</p>
+
+<div class="caveat">
+<strong>Important scope note</strong>
+Moore's textbook is a <em>regional/gross</em> anatomy text, not a dedicated neuroanatomy text — the book says so itself on p. 1658. So a few outline items simply aren't covered here in the depth your course wants:
+<ul style="margin:.5rem 0 0;">
+<li><strong>Ascending/descending spinal tracts</strong> (spinothalamic, corticospinal, dorsal columns) — not covered at the pathway level anywhere in this book.</li>
+<li><strong>Glial cell subtypes</strong> (astrocytes, oligodendrocytes, microglia) — not named individually; the book only discusses neurons, nerve fibers, and neuroglia in general terms.</li>
+<li><strong>Basal ganglia detail and lobe functions</strong> — mentioned only in passing as gross structures, not their circuitry or functional roles.</li>
+</ul>
+For those three topics you'll need your lecture notes, Pathoma-style pathway diagrams, or a neuroanatomy-specific text (e.g., Snell's). Everything else below is solidly covered.
+</div>
+
+<nav>
+<strong>Contents</strong>
+<ol>
+<li><a href="#sec1">Organization of the Nervous System</a></li>
+<li><a href="#sec2">The Meninges &amp; Cerebrospinal Fluid</a></li>
+<li><a href="#sec3">The Spinal Cord</a></li>
+<li><a href="#sec4">The Brainstem &amp; Cerebellum</a></li>
+<li><a href="#sec5">The Cerebrum</a></li>
+<li><a href="#sec6">The Cranial Nerves</a></li>
+<li><a href="#sec7">Blood Supply to the Brain</a></li>
+</ol>
+</nav>
+
+<!-- ================= SECTION 1 ================= -->
+<section id="sec1">
+<h2>1. Organization of the Nervous System <span class="pg">pp. 152–185</span></h2>
+
+<h3>CNS vs. PNS <span class="pg">p. 172</span></h3>
+<p>The nervous system splits functionally into two divisions. The <strong>central nervous system (CNS)</strong> is the brain and spinal cord. The <strong>peripheral nervous system (PNS)</strong> is everything else — the nerve fibers and their cell bodies that live outside the CNS, organized into cranial and spinal nerves that link the CNS to the rest of the body.</p>
+<p>A cluster of nerve cell bodies is called a <strong>nucleus</strong> when it's inside the CNS, and a <strong>ganglion</strong> when it's outside the CNS in the periphery. Similarly, a bundle of connecting fibers is a <strong>tract</strong> inside the CNS, but a <strong>nerve</strong> once it's in the periphery (nerve = fiber bundle + connective tissue wrapping + its own blood supply, the vasa nervorum).</p>
+
+<h3>Gray Matter and White Matter <span class="pg">p. 152</span></h3>
+<p>Both the brain and spinal cord are built from two tissue types: <strong>gray matter</strong>, made of neuron cell bodies, and <strong>white matter</strong>, made of the myelinated fiber tracts connecting those cell bodies. In a spinal cord cross-section, the gray matter forms a distinctive <strong>H-shape</strong> (or butterfly shape) sitting inside a surrounding matrix of white matter. The "arms" of the H are called horns — there are paired posterior (dorsal) horns and anterior (ventral) horns.</p>
+
+<h3>Nerve Fiber Structure <span class="pg">pp. 154–157</span></h3>
+<p>An individual nerve fiber is an axon wrapped in a neurolemma (a sheath of Schwann cell membrane) plus a thin layer of endoneurial connective tissue. Fibers come in two flavors:</p>
+<ul>
+<li><strong>Myelinated fibers</strong> — a continuous chain of Schwann cells wraps each axon individually, laying down myelin.</li>
+<li><strong>Unmyelinated fibers</strong> — several axons share space inside one Schwann cell, and no myelin is produced. Most cutaneous (skin) sensory fibers fall into this category.</li>
+</ul>
+<p>Zooming out, a whole nerve is built like a telephone cable: individual insulated axons are bundled into <strong>fascicles</strong> wrapped in <strong>perineurium</strong>, and the fascicles themselves are bundled together inside an outer wrapping called the <strong>epineurium</strong>. A separate, even finer layer — the <strong>endoneurium</strong> — surrounds each individual axon.</p>
+
+<h3>Cranial vs. Spinal Nerves <span class="pg">pp. 157–159</span></h3>
+<p>Cranial nerves exit through skull foramina (11 of the 12 pairs actually arise from the brain; CN XI arises from the superior spinal cord). Spinal nerves exit through intervertebral foramina — there are 31 pairs, each initially forming as rootlets that converge into an anterior (motor) root and a posterior (sensory) root. These two roots join to form a single mixed spinal nerve, which then splits into anterior and posterior rami.</p>
+
+<h3>The Autonomic Nervous System (ANS) <span class="pg">pp. 173–185</span></h3>
+<p>The ANS is the visceral motor system — it drives smooth muscle, modified cardiac muscle, and glands, and it always uses a two-neuron relay (unlike somatic motor pathways, which use just one neuron). A <strong>presynaptic neuron</strong> starts in the CNS and synapses onto a <strong>postsynaptic neuron</strong> sitting in a peripheral ganglion; the postsynaptic neuron's fiber then reaches the target organ.</p>
+
+<table>
+<tr><th>Feature</th><th>Sympathetic (thoracolumbar)</th><th>Parasympathetic (craniosacral)</th></tr>
+<tr><td>Presynaptic cell body location</td><td>Intermediolateral cell columns of gray matter, spinal cord segments T1–L2/3</td><td>Brainstem gray matter (CN III, VII, IX, X) <em>and</em> gray matter of sacral segments S2–4</td></tr>
+<tr><td>Ganglion location</td><td>Close to the cord — paravertebral ganglia (sympathetic trunk) or prevertebral ganglia (around aortic branches)</td><td>Close to (or embedded in) the target organ</td></tr>
+<tr><td>Presynaptic fiber length</td><td>Short</td><td>Long</td></tr>
+<tr><td>Postsynaptic fiber length</td><td>Long — has to reach the whole body</td><td>Short</td></tr>
+<tr><td>Main neurotransmitter (postsynaptic)</td><td>Norepinephrine (except sweat glands, which get acetylcholine)</td><td>Acetylcholine</td></tr>
+<tr><td>Overall role</td><td>Catabolic — "fight or flight," mobilizes the body for stress</td><td>Anabolic/homeostatic — "rest and digest," conserves energy</td></tr>
+</table>
+
+<p><strong>Sympathetic distribution</strong> is remarkably wide — postsynaptic sympathetic fibers travel with virtually every branch of every spinal nerve, so this system reaches almost every part of the body (the exceptions are avascular tissues like cartilage and nails). Its main job is regulating blood vessel tone (vasoconstriction/vasodilation), plus controlling sweating and the arrector pili muscles that produce goosebumps.</p>
+
+<p><strong>Parasympathetic distribution</strong> is much more restricted — only to the head, the visceral cavities of the trunk, and the erectile tissue of the external genitalia. It never reaches the body wall or limbs. Notably, even though the parasympathetic system anatomically has a "cranial" and a "sacral" outflow, the cranial outflow via the <strong>vagus nerve (CN X)</strong> actually dominates — it alone supplies all thoracic viscera and most of the GI tract down to the left colic flexure. The sacral outflow (S2–4) only picks up the descending colon, sigmoid colon, and rectum.</p>
+
+<div class="clin">The suprarenal (adrenal) medulla is an exception to the usual two-neuron sympathetic relay: its secretory cells act like a modified postsynaptic neuron with no axon, so they're innervated directly by presynaptic fibers and release their neurotransmitter straight into the bloodstream — producing a body-wide sympathetic surge rather than a localized effect. <span class="pg">p. 180</span></div>
+
+<p class="fig-note">Note: the four possible course options presynaptic sympathetic fibers can take once they reach the sympathetic trunk (ascend, descend, synapse immediately, or pass straight through to a prevertebral ganglion) is classic exam material — see p. 176 in the source.</p>
+
+</section>
+
+<!-- ================= SECTION 2 ================= -->
+<section id="sec2">
+<h2>2. The Meninges &amp; Cerebrospinal Fluid <span class="pg">pp. 1636–1673, 982–991</span></h2>
+
+<h3>The Three Meningeal Layers <span class="pg">p. 1636</span></h3>
+<p>From outside in: <strong>dura mater</strong> (tough, thick, fibrous), <strong>arachnoid mater</strong> (thin, web-like middle layer), and <strong>pia mater</strong> (delicate, vascularized, hugs the brain surface directly). The arachnoid and pia together are called the <strong>leptomeninges</strong> — they develop from a single embryonic layer, which is why fine strands (arachnoid trabeculae) still bridge between them in the adult. The CSF-filled <strong>subarachnoid space</strong> sits between arachnoid and pia; this is the one meningeal "space" that's actually real anatomically (more on that below).</p>
+
+<h3>Cranial Dura Mater — Two Layers <span class="pg">pp. 1638–1639</span></h3>
+<p>Unlike spinal dura (a single layer), cranial dura is bilaminar: an outer <strong>periosteal layer</strong> fused to the inside of the skull, and an inner <strong>meningeal layer</strong>. They're tightly fused everywhere except where they separate to form dural infoldings or to enclose the venous sinuses.</p>
+
+<h3>Dural Infoldings (Reflections) <span class="pg">pp. 1639–1643</span></h3>
+<ul>
+<li><strong>Falx cerebri</strong> — the largest fold; sits in the longitudinal fissure between the two cerebral hemispheres.</li>
+<li><strong>Tentorium cerebelli</strong> — a tent-shaped shelf separating the occipital lobes above from the cerebellum below; divides the cranial cavity into supratentorial and infratentorial compartments. Its free anteromedial edge creates the <strong>tentorial notch</strong>, the gap the brainstem passes through.</li>
+<li><strong>Falx cerebelli</strong> — small vertical fold partially separating the two cerebellar hemispheres.</li>
+<li><strong>Diaphragma sellae</strong> — smallest fold; roofs over the pituitary fossa, with a small opening for the infundibulum.</li>
+</ul>
+
+<h3>Dural Venous Sinuses <span class="pg">pp. 1643–1646</span></h3>
+<p>These are endothelium-lined channels running between the two dural layers, draining venous blood from the brain toward the internal jugular veins. Key ones to know: superior and inferior sagittal sinus → straight sinus → confluence of sinuses → paired transverse sinuses → sigmoid sinuses → internal jugular vein. The <strong>cavernous sinus</strong> deserves special attention — it flanks the pituitary fossa and has the internal carotid artery and CN VI running straight through it, with CN III, IV, and the first two divisions of CN V embedded in its lateral wall.</p>
+
+<div class="clin"><strong>Cavernous sinus thrombosis</strong> can result from facial infections (the "danger triangle" from the nose to the upper lip drains toward the cavernous sinus via valveless veins), and can compress or damage any of the cranial nerves running through/alongside the sinus. <span class="pg">p. 1655</span></div>
+
+<h3>Meningeal "Spaces" — a common exam trap <span class="pg">p. 1651</span></h3>
+<p>Only <strong>one</strong> of the three commonly-named meningeal spaces is a real, naturally occurring space:</p>
+<ul>
+<li><strong>Epidural/extradural "space"</strong> — not real; the dura is normally stuck to the skull. It only becomes an actual space pathologically (e.g., an epidural hematoma from a torn meningeal vessel).</li>
+<li><strong>"Subdural space"</strong> — also not real; it's a plane of weak dural border cells that can split open with trauma, creating a pathological space (subdural hematoma).</li>
+<li><strong>Subarachnoid space</strong> — this one is genuinely present at all times, filled with CSF, trabecular cells, and blood vessels.</li>
+</ul>
+
+<h3>Ventricular System <span class="pg">pp. 1660–1662</span></h3>
+<p>Four fluid-filled cavities inside the brain: paired <strong>lateral ventricles</strong> (1st and 2nd) inside the cerebral hemispheres, connecting via the interventricular foramina to the midline <strong>3rd ventricle</strong>, which connects via the narrow <strong>cerebral aqueduct</strong> (running through the midbrain) to the <strong>4th ventricle</strong> between the pons/medulla and cerebellum. CSF leaves the 4th ventricle into the subarachnoid space through one median and two lateral apertures — the only way CSF gets out of the ventricular system.</p>
+
+<h3>CSF: Production, Circulation, Absorption <span class="pg">pp. 1663–1664</span></h3>
+<ul>
+<li><strong>Secretion</strong> — about 400–500 mL/day, mainly by the choroid plexuses (modified ependymal cells) inside the lateral, 3rd, and 4th ventricles.</li>
+<li><strong>Circulation</strong> — lateral ventricles → 3rd ventricle → cerebral aqueduct → 4th ventricle → subarachnoid space (via the apertures) → flows around the brain and spinal cord through the subarachnoid cisterns and sulci.</li>
+<li><strong>Absorption</strong> — mainly through <strong>arachnoid granulations</strong>, tuft-like projections of arachnoid that poke into the dural venous sinuses (especially the superior sagittal sinus) and transfer CSF back into venous blood.</li>
+</ul>
+
+<h3>Spinal Meninges &amp; CSF <span class="pg">pp. 982–987</span></h3>
+<p>The same three-layer pattern continues around the spinal cord, with a few differences from the cranial version: spinal dura is a single layer (not bilaminar), and it's separated from the vertebral bone by a genuine, fat-filled <strong>epidural space</strong> containing the internal vertebral venous plexus — this is a real space in the spine, unlike the cranial "epidural space." The <strong>lumbar cistern</strong> (from L2 down to S2) is the enlarged subarachnoid space containing the cauda equina and CSF — this is the target for a lumbar puncture.</p>
+
+<div class="clin"><strong>Hydrocephalus</strong> results from CSF overproduction, obstruction of its flow, or impaired absorption. The most common obstruction site is the cerebral aqueduct or an interventricular foramen ("obstructive hydrocephalus"). In "communicating hydrocephalus," flow through the ventricles is fine, but movement of CSF into the venous system is blocked (e.g., arachnoid granulations obstructed by red blood cells after a subarachnoid hemorrhage). <span class="pg">pp. 1672–1673</span></div>
+
+<div class="clin"><strong>Meningitis</strong> is inflammation of the leptomeninges (arachnoid + pia), usually from bacterial or viral infection reaching the subarachnoid space via the bloodstream, or via direct spread from a skull/sinus fracture. A CSF leak from the nose (rhinorrhea) or ear (otorrhea) after a basal skull fracture raises meningitis risk because it creates a direct route for pathogens to reach the meninges. <span class="pg">pp. 1656, 1673</span></div>
+
+</section>
+
+<!-- ================= SECTION 3 ================= -->
+<section id="sec3">
+<h2>3. The Spinal Cord <span class="pg">pp. 976–993</span></h2>
+
+<h3>Gross Anatomy <span class="pg">pp. 976–978</span></h3>
+<p>The spinal cord is a direct continuation of the medulla oblongata, beginning at the foramen magnum. In adults it's about 42–45 cm long, tapering inferiorly to a cone-shaped tip, the <strong>conus medullaris</strong>, which usually ends around the L1–L2 vertebral level (though it can range from T12 to L3). This means the spinal cord only occupies the superior two-thirds of the vertebral canal.</p>
+<p>Two enlargements correspond to limb innervation:</p>
+<ul>
+<li><strong>Cervical enlargement</strong> (C4–T1) — gives rise to the brachial plexus for the upper limb.</li>
+<li><strong>Lumbosacral enlargement</strong> (T11–S1) — gives rise to the lumbar and sacral plexuses for the lower limb.</li>
+</ul>
+
+<h3>Why the Cord Doesn't Fill the Canal — Developmental Note <span class="pg">pp. 979–981</span></h3>
+<p>In the embryo, the spinal cord fills the entire vertebral canal. But the vertebral column grows faster than the cord during fetal life, so the cord effectively "ascends" relative to the bony canal. By birth, the conus medullaris sits around L4–L5; in the adult it's crept even higher to ~L1–L2. Because of this mismatch, the lower spinal nerve roots have to travel a long way down inside the canal before exiting at their proper vertebral level — this bundle of long descending roots is the <strong>cauda equina</strong> ("horse's tail"). The <strong>filum terminale</strong> (a fibrous remnant of the embryonic cord) runs down through the cauda equina and anchors the cord's inferior end to the coccyx.</p>
+
+<h3>Numbering Spinal Nerves vs. Vertebrae <span class="pg">p. 978</span></h3>
+<p>Cervical nerves C1–C7 exit <em>above</em> their same-numbered vertebra, but C8 exits below C7 (there's no C8 vertebra) — from that point down, every spinal nerve exits <em>below</em> its same-numbered vertebra.</p>
+
+<h3>Spinal Meninges <span class="pg">pp. 983–986</span></h3>
+<p>Covered in Section 2 above in detail. Key spinal-specific structures: the <strong>denticulate ligaments</strong> (paired sawtooth-shaped pial extensions that anchor the cord laterally within the dural sac) and the <strong>dural root sheaths</strong> (tapering dural extensions that follow each nerve root out toward the intervertebral foramen, eventually blending with the nerve's epineurium).</p>
+
+<h3>Vasculature <span class="pg">pp. 987–990</span></h3>
+<p>Three longitudinal arteries run the length of the cord: one <strong>anterior spinal artery</strong> (formed by branches of the vertebral arteries, supplies roughly the anterior two-thirds of the cord via small sulcal branches) and paired <strong>posterior spinal arteries</strong>. These alone can't supply the whole cord length, so they're reinforced at intervals by <strong>segmental medullary arteries</strong> that enter via the intervertebral foramina. The largest of these reinforcing vessels is the <strong>great anterior segmental medullary artery (of Adamkiewicz)</strong>, usually on the left, which is the major blood supply to the lumbosacral enlargement.</p>
+
+<div class="clin">Because the artery of Adamkiewicz supplies such a large territory, injury or occlusion (e.g., during aortic cross-clamping in surgery, or a ruptured aortic aneurysm) can cause <strong>spinal cord ischemia</strong> and paraplegia. <span class="pg">p. 993</span></div>
+
+<div class="clin"><strong>Lumbar puncture</strong> is performed between L3–L4 or L4–L5 (below the cord's termination, so there's no risk of hitting the cord itself), with the needle passing through skin, ligamentum flavum, dura, and arachnoid to reach the lumbar cistern. <strong>Spinal anesthesia</strong> injects into the subarachnoid space itself; <strong>epidural anesthesia</strong> injects into the epidural space (not through the dura). <span class="pg">pp. 991–993</span></div>
+
+</section>
+
+<!-- ================= SECTION 4 ================= -->
+<section id="sec4">
+<h2>4. The Brainstem &amp; Cerebellum <span class="pg">pp. 1658–1660</span></h2>
+
+<p>Moore's book treats the brainstem and cerebellum only at the level of gross structure and their relationship to the cranial fossae and cranial nerves — not internal circuitry. Here's what it does cover:</p>
+
+<h3>Medulla Oblongata <span class="pg">p. 1659</span></h3>
+<p>The most caudal part of the brainstem, continuous inferiorly with the spinal cord; sits in the posterior cranial fossa. <strong>CN IX, X, and XII</strong> attach here, and <strong>CN VI–VIII</strong> attach at the pons–medulla junction.</p>
+
+<h3>The Pons <span class="pg">p. 1659</span></h3>
+<p>Sits between the midbrain above and the medulla below, in the anterior part of the posterior cranial fossa. <strong>CN V</strong> attaches here.</p>
+
+<h3>The Midbrain <span class="pg">p. 1659</span></h3>
+<p>The rostral (most superior) part of the brainstem, positioned at the junction of the middle and posterior cranial fossae. <strong>CN III and IV</strong> attach here. The narrow cerebral aqueduct runs through it, connecting the 3rd and 4th ventricles.</p>
+
+<h3>The Cerebellum <span class="pg">p. 1659</span></h3>
+<p>A large mass posterior to the pons and medulla, sitting beneath the tentorium cerebelli in the posterior cranial fossa. It has two lateral hemispheres joined by a narrow central strip, the <strong>vermis</strong>. Venous drainage is via superior and inferior cerebellar veins into the transverse and sigmoid sinuses.</p>
+
+<p class="fig-note">What's not here: the internal nuclei of the brainstem, the specific tracts passing through it, or the cerebellar peduncles/circuitry — those are neuroanatomy-course territory, not gross-anatomy territory.</p>
+
+</section>
+
+<!-- ================= SECTION 5 ================= -->
+<section id="sec5">
+<h2>5. The Cerebrum <span class="pg">pp. 1658–1659</span></h2>
+
+<h3>Hemispheres and Lobes <span class="pg">p. 1658</span></h3>
+<p>The <strong>cerebrum</strong> includes the cerebral hemispheres and basal ganglia. The two hemispheres are separated by the longitudinal cerebral fissure (with the falx cerebri sitting in it) and are each divided into four lobes:</p>
+<ul>
+<li><strong>Frontal lobe</strong> — anterior to the central sulcus; occupies the anterior cranial fossa.</li>
+<li><strong>Parietal lobe</strong> — posterior to the central sulcus.</li>
+<li><strong>Temporal lobe</strong> — inferior to the lateral sulcus; occupies the lateral part of the middle cranial fossa.</li>
+<li><strong>Occipital lobe</strong> — posterior-most; extends back over the tentorium cerebelli.</li>
+</ul>
+<p>The boundary between parietal and occipital lobes is the parieto-occipital sulcus, visible on the brain's medial surface once it's been hemisected.</p>
+
+<h3>Diencephalon <span class="pg">p. 1659</span></h3>
+<p>Forms the central core of the brain and is made up of the <strong>epithalamus</strong>, <strong>dorsal thalamus</strong>, and <strong>hypothalamus</strong>.</p>
+
+<div class="clin">In the visual pathway, fibers from the nasal half of each retina cross at the <strong>optic chiasm</strong> and, together with uncrossed temporal-retina fibers, form the optic tracts; most of these fibers relay through the <strong>lateral geniculate body of the thalamus</strong> before reaching the visual cortex of the occipital lobe. <span class="pg">p. 1981</span></div>
+
+<p class="fig-note">As with Section 4, this book does not cover lobe <em>functions</em> (personality/decision-making for frontal, sensory processing specifics for parietal, etc.) or basal ganglia circuitry — that's neuroscience-course content, not gross anatomy.</p>
+
+</section>
+
+<!-- ================= SECTION 6 ================= -->
+<section id="sec6">
+<h2>6. The Cranial Nerves <span class="pg">pp. 1976–2005</span></h2>
+
+<h3>General Organization <span class="pg">pp. 1976–1978</span></h3>
+<p>All 12 pairs are numbered rostral to caudal. Except for CN I and II (which are technically CNS extensions of the forebrain, not true peripheral nerves), the rest attach to <strong>nuclei in the brainstem</strong>. Cranial nerves can carry up to five different functional fiber types: somatic motor, visceral (parasympathetic) motor, somatic sensory, visceral sensory, and special sensory (smell, vision, hearing/balance, taste).</p>
+<p><strong>Pure motor nerves:</strong> III, IV, VI, XI, XII (plus the motor root of V).<br>
+<strong>Nerves carrying parasympathetic fibers:</strong> III, VII, IX, X.<br>
+<strong>Mixed nerves with both branchial motor and general sensory components:</strong> V, VII, IX, X (each associated with a different pharyngeal arch).</p>
+
+<table>
+<tr><th>Nerve</th><th>Main function(s)</th><th>Key course notes</th></tr>
+<tr><td><strong>CN I</strong> — Olfactory <span class="pg">1978</span></td><td>Special sensory: smell</td><td>~20 fine nerve filaments pass through the cribriform plate to the olfactory bulb; the only cranial nerve to synapse directly into the cerebrum.</td></tr>
+<tr><td><strong>CN II</strong> — Optic <span class="pg">1980</span></td><td>Special sensory: vision</td><td>Actually a CNS fiber tract, not a true peripheral nerve. Nasal retinal fibers cross at the optic chiasm; fibers relay in the thalamus (lateral geniculate body) en route to the occipital cortex.</td></tr>
+<tr><td><strong>CN III</strong> — Oculomotor <span class="pg">1982</span></td><td>Somatic motor to 4 of 6 extra-ocular muscles + levator palpebrae; parasympathetic to sphincter pupillae &amp; ciliary muscle</td><td>Runs through the cavernous sinus wall; enters orbit via superior orbital fissure.</td></tr>
+<tr><td><strong>CN IV</strong> — Trochlear <span class="pg">1984</span></td><td>Somatic motor to superior oblique only</td><td>Smallest CN; only one to exit the <em>posterior</em> brainstem; longest intracranial course.</td></tr>
+<tr><td><strong>CN V</strong> — Trigeminal <span class="pg">1985</span></td><td>Main general sensory nerve of the face/head; branchial motor to muscles of mastication</td><td>Largest CN; three divisions (V1 ophthalmic, V2 maxillary, V3 mandibular) fan out from the trigeminal ganglion.</td></tr>
+<tr><td><strong>CN VI</strong> — Abducent <span class="pg">1988</span></td><td>Somatic motor to lateral rectus only</td><td>Runs straight through the cavernous sinus alongside the internal carotid artery.</td></tr>
+<tr><td><strong>CN VII</strong> — Facial <span class="pg">1989</span></td><td>Branchial motor to facial expression muscles; parasympathetic (lacrimal, submandibular/sublingual glands); taste, anterior 2/3 tongue</td><td>Runs through the internal acoustic meatus and facial canal; exits via stylomastoid foramen.</td></tr>
+<tr><td><strong>CN VIII</strong> — Vestibulocochlear <span class="pg">1993</span></td><td>Special sensory: hearing (cochlear division) + balance/motion (vestibular division)</td><td>Splits into two divisions within the internal acoustic meatus.</td></tr>
+<tr><td><strong>CN IX</strong> — Glossopharyngeal <span class="pg">1995</span></td><td>Motor to stylopharyngeus; parasympathetic to parotid gland; sensation + taste, posterior 1/3 tongue; carotid body/sinus sensation</td><td>Exits via jugular foramen.</td></tr>
+<tr><td><strong>CN X</strong> — Vagus <span class="pg">1999</span></td><td>Longest, most widely distributed CN; parasympathetic to thoracic &amp; most abdominal viscera (to left colic flexure); motor to larynx/pharynx</td><td>Exits via jugular foramen; gives rise to the recurrent laryngeal nerves.</td></tr>
+<tr><td><strong>CN XI</strong> — Spinal Accessory <span class="pg">2002</span></td><td>Somatic motor to sternocleidomastoid and trapezius</td><td>True spinal root only — arises from C1–C6 cord segments, briefly joins CN X through the jugular foramen, then separates.</td></tr>
+<tr><td><strong>CN XII</strong> — Hypoglossal <span class="pg">2003</span></td><td>Somatic motor to intrinsic/extrinsic tongue muscles (except palatoglossus)</td><td>Exits via hypoglossal canal; "hitches a ride" with C1/C2 fibers that later split off as the ansa cervicalis.</td></tr>
+</table>
+
+<div class="clin">Because CN III, IV, VI, and V1/V2 all run through or alongside the cavernous sinus, cavernous sinus pathology (thrombosis, fistula, tumor) can produce a combined pattern of eye-movement palsies and facial sensory loss. <span class="pg">p. 1655</span></div>
+
+<p class="fig-note">Testing tip carried over from your outline's own advice: have a study partner smile (VII), stick out their tongue (XII), and shrug their shoulders (XI) — tying each nerve to a physical action is far more durable than rote memorization of the list.</p>
+
+</section>
+
+<!-- ================= SECTION 7 ================= -->
+<section id="sec7">
+<h2>7. Blood Supply to the Brain <span class="pg">pp. 1665–1673</span></h2>
+
+<h3>The Two Arterial Sources <span class="pg">p. 1665</span></h3>
+<p>Despite being only ~2.5% of body weight, the brain receives about one-sixth of cardiac output and one-fifth of resting oxygen consumption. Blood arrives via two paired vessels:</p>
+
+<h4>Internal Carotid Arteries — "Anterior Circulation" <span class="pg">pp. 1666–1669</span></h4>
+<p>Arise from the common carotid arteries in the neck, enter the skull through the carotid canal, and pass through the cavernous sinus before terminating as the <strong>anterior</strong> and <strong>middle cerebral arteries</strong>.</p>
+
+<h4>Vertebral Arteries — "Posterior Circulation" <span class="pg">p. 1669</span></h4>
+<p>Arise as the first branches of the subclavian arteries, ascend through the transverse foramina of the upper six cervical vertebrae, and enter the skull through the foramen magnum. The two vertebral arteries unite at the base of the pons to form the single <strong>basilar artery</strong>, which terminates by splitting into the paired <strong>posterior cerebral arteries</strong>.</p>
+
+<h3>Cortical Territories <span class="pg">p. 1670</span></h3>
+<table>
+<tr><th>Artery</th><th>Territory supplied</th></tr>
+<tr><td>Anterior cerebral artery</td><td>Medial and superior surfaces of the brain; frontal pole</td></tr>
+<tr><td>Middle cerebral artery</td><td>Lateral surface of the brain; temporal pole</td></tr>
+<tr><td>Posterior cerebral artery</td><td>Inferior surface of the brain; occipital pole</td></tr>
+</table>
+
+<h3>The Cerebral Arterial Circle (Circle of Willis) <span class="pg">p. 1670</span></h3>
+<p>A roughly pentagon-shaped anastomotic ring at the base of the brain, joining the anterior and posterior circulations and providing a built-in collateral pathway if one feeding vessel is compromised. Built front to back from: anterior communicating artery → anterior cerebral arteries → internal carotid arteries → posterior communicating arteries → posterior cerebral arteries. The circle surrounds the interpeduncular fossa on the underside of the midbrain.</p>
+
+<h3>Venous Drainage <span class="pg">p. 1671</span></h3>
+<p>Thin-walled, valveless cerebral veins drain directly into the nearby dural venous sinuses (see Section 2). Superior cerebral veins go to the superior sagittal sinus; the deep <strong>great cerebral vein (of Galen)</strong> joins the inferior sagittal sinus to form the straight sinus.</p>
+
+<div class="clin"><strong>Strokes</strong> — a sudden focal neurological deficit from disrupted cerebral blood flow, most often from an embolism blocking a major cerebral artery. Because the three cerebral arteries do anastomose with each other at the cortical surface, small emboli in peripheral branches can sometimes be compensated for — but occlusion of a major trunk overwhelms these microscopic connections, causing ischemia and infarction in that artery's territory. Knowing which artery = which territory is exactly how stroke localization works clinically (e.g., contralateral leg weakness suggests anterior cerebral artery territory; face/arm weakness plus language deficits suggests middle cerebral artery territory). <span class="pg">p. 1673</span></div>
+
+<div class="clin">The Circle of Willis is anatomically variable — one posterior cerebral artery arising as a branch of the internal carotid rather than the basilar system happens in roughly 1 in 3 people. These variants matter clinically because they change how well a person can tolerate occlusion of one of the main feeder vessels. <span class="pg">p. 1673</span></div>
+
+</section>
+
+<footer>
+Source: <em>Clinically Oriented Anatomy</em>, 8th edition — Keith L. Moore, Anne M. R. Agur, Arthur F. Dalley. All notes above are paraphrased summaries for study purposes, not reproductions of the original text. Page numbers refer to the position within the uploaded PDF.
+<div class="backtop" style="margin-top:.8rem;"><a href="#sec1">↑ Back to top</a></div>
+</footer>
+
+</body>
+</html>
