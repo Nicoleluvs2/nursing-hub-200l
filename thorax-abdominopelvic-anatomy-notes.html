@@ -8,29 +8,61 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#20201d;
-    --paper:#faf7ef;
-    --paper-deep:#f1ecdd;
-    --maroon:#7c1f2d;
-    --maroon-deep:#5c1521;
-    --teal:#1d5c63;
-    --teal-deep:#123f44;
-    --gold:#b3862c;
-    --line:#ddd3ba;
-    --muted:#6b6455;
-    --card:#ffffff;
+    --ink:#eef0f5;
+    --paper:#0b0e17;
+    --paper-deep:#0f1320;
+    --maroon:#ff6b8b;
+    --maroon-deep:#ffb1c4;
+    --teal:#3ee6d0;
+    --teal-deep:#8ff5e6;
+    --gold:#f2c464;
+    --line:rgba(255,255,255,.14);
+    --muted:#a7adc2;
+    --card:rgba(255,255,255,.06);
+    --card-strong:rgba(255,255,255,.09);
     --sidebar-w:300px;
+    --glass-border:rgba(255,255,255,.16);
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
+
   body{
     margin:0;
-    background:var(--paper);
     color:var(--ink);
     font-family:'Source Serif 4', Georgia, serif;
     font-size:16.5px;
     line-height:1.6;
+    cursor:none;
+    position:relative;
+    min-height:100vh;
+    background:#0b0e17;
+    overflow-x:hidden;
   }
+
+  /* ---------- Animated fluid gradient background ---------- */
+  .bg-fluid{
+    position:fixed; inset:0; z-index:-2;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,107,139,.35), transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(62,230,208,.30), transparent 45%),
+      radial-gradient(circle at 75% 80%, rgba(242,196,100,.25), transparent 45%),
+      radial-gradient(circle at 20% 85%, rgba(124,58,237,.30), transparent 45%),
+      linear-gradient(160deg,#0b0e17 0%, #0d1120 50%, #0b0e17 100%);
+    background-size:200% 200%, 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+    animation:fluidShift 22s ease-in-out infinite;
+  }
+  .bg-noise{
+    position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  @keyframes fluidShift{
+    0%{background-position:0% 0%, 100% 0%, 100% 100%, 0% 100%, 0 0;}
+    25%{background-position:30% 40%, 70% 30%, 80% 70%, 20% 60%, 0 0;}
+    50%{background-position:60% 20%, 40% 60%, 50% 40%, 60% 80%, 0 0;}
+    75%{background-position:20% 70%, 80% 60%, 30% 20%, 70% 30%, 0 0;}
+    100%{background-position:0% 0%, 100% 0%, 100% 100%, 0% 100%, 0 0;}
+  }
+
   h1,h2,h3,h4{
     font-family:'Fraunces', 'Source Serif 4', serif;
     font-weight:600;
@@ -39,39 +71,105 @@
   }
   .mono{font-family:'IBM Plex Mono', monospace;}
 
+  /* ---------- Custom animated cursor ---------- */
+  #cursorDot, #cursorRing{
+    position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+  }
+  #cursorDot{
+    width:8px; height:8px;
+    background:var(--teal);
+    box-shadow:0 0 10px 2px rgba(62,230,208,.8);
+    transition:transform .08s ease-out, background .2s ease;
+  }
+  #cursorRing{
+    width:34px; height:34px;
+    border:1.5px solid rgba(255,255,255,.55);
+    background:rgba(255,255,255,.04);
+    backdrop-filter:blur(2px);
+    transition:transform .18s ease-out, width .2s ease, height .2s ease, border-color .2s ease, background .2s ease;
+  }
+  body.cursor-active #cursorRing{
+    width:52px; height:52px;
+    border-color:var(--maroon);
+    background:rgba(255,107,139,.10);
+  }
+  @media (max-width:980px){
+    #cursorDot, #cursorRing{display:none;}
+    body{cursor:auto;}
+  }
+
+  /* ---------- Back Home button ---------- */
+  #backHomeBtn{
+    position:fixed;
+    top:18px; left:18px; z-index:60;
+    display:flex; align-items:center; gap:8px;
+    padding:10px 16px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(16px) saturate(160%);
+    -webkit-backdrop-filter:blur(16px) saturate(160%);
+    color:var(--ink);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.78rem;
+    text-decoration:none;
+    letter-spacing:.04em;
+    box-shadow:0 8px 24px rgba(0,0,0,.35);
+    transition:transform .2s ease, background .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  #backHomeBtn:hover{
+    transform:translateY(-2px) scale(1.03);
+    background:rgba(255,255,255,.14);
+    border-color:rgba(62,230,208,.6);
+    box-shadow:0 12px 30px rgba(62,230,208,.18);
+  }
+  #backHomeBtn .arrow{color:var(--teal); font-size:1rem; line-height:1;}
+  @media (max-width:980px){
+    #backHomeBtn{ top:auto; bottom:18px; left:18px; }
+  }
+
   /* ---------- Top bar (mobile) ---------- */
   .topbar{
     display:none;
     position:sticky; top:0; z-index:40;
-    background:var(--maroon-deep);
-    color:var(--paper);
-    padding:14px 18px;
+    background:rgba(11,14,23,.65);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    color:var(--paper-deep);
+    padding:14px 18px 14px 130px;
     align-items:center;
     justify-content:space-between;
+    border-bottom:1px solid var(--glass-border);
   }
-  .topbar .brand{font-family:'Fraunces',serif; font-weight:600; font-size:1.05rem;}
+  .topbar .brand{font-family:'Fraunces',serif; font-weight:600; font-size:1.05rem; color:var(--ink);}
   .topbar button{
-    background:none;border:1px solid rgba(250,247,239,.4); color:var(--paper);
-    padding:6px 12px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:.8rem;cursor:pointer;
+    background:rgba(255,255,255,.06);border:1px solid var(--glass-border); color:var(--ink);
+    padding:6px 12px;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:.8rem;cursor:none;
+    backdrop-filter:blur(10px);
   }
 
   /* ---------- Layout ---------- */
   .layout{display:flex; align-items:flex-start; min-height:100vh;}
 
-  /* ---------- Sidebar ---------- */
+  /* ---------- Sidebar (glass) ---------- */
   .sidebar{
     width:var(--sidebar-w);
     flex:0 0 var(--sidebar-w);
     position:sticky; top:0;
     height:100vh;
     overflow-y:auto;
-    background:linear-gradient(180deg,var(--maroon-deep),#4a1119 65%, #3a0f16);
+    background:rgba(15,19,32,.55);
+    backdrop-filter:blur(22px) saturate(160%);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
     color:#f2e6d9;
     padding:28px 22px 60px;
-    border-right:6px solid var(--gold);
+    border-right:1px solid var(--glass-border);
+    box-shadow:8px 0 40px rgba(0,0,0,.25);
   }
   .sidebar::-webkit-scrollbar{width:8px;}
-  .sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:8px;}
+  .sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:8px;}
 
   .brand-block{margin-bottom:6px;}
   .brand-block .eyebrow{
@@ -82,14 +180,15 @@
     color:#fbf1e2; font-size:1.5rem; margin:6px 0 4px; letter-spacing:.01em;
   }
   .brand-block p{
-    color:#d9c3b6; font-size:.83rem; margin:0 0 22px; line-height:1.5;
+    color:#c7bfd6; font-size:.83rem; margin:0 0 22px; line-height:1.5;
   }
   .search-box{
-    width:100%; padding:9px 12px; border-radius:7px; border:1px solid rgba(255,255,255,.18);
-    background:rgba(0,0,0,.18); color:#fdf6ea; font-family:'IBM Plex Mono',monospace; font-size:.78rem;
+    width:100%; padding:9px 12px; border-radius:10px; border:1px solid var(--glass-border);
+    background:rgba(0,0,0,.25); color:#fdf6ea; font-family:'IBM Plex Mono',monospace; font-size:.78rem;
     margin-bottom:22px; outline:none;
+    backdrop-filter:blur(8px);
   }
-  .search-box::placeholder{color:#c8ab9c;}
+  .search-box::placeholder{color:#8b86a0;}
 
   nav .unit-label{
     font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.15em;
@@ -99,36 +198,44 @@
   nav ul{list-style:none;margin:0;padding:0;}
   nav li a{
     display:block; color:#e9d9cd; text-decoration:none; font-size:.9rem;
-    padding:7px 10px 7px 14px; border-radius:6px; border-left:2px solid transparent;
-    transition:background .15s, border-color .15s, color .15s;
+    padding:7px 10px 7px 14px; border-radius:8px; border-left:2px solid transparent;
+    transition:background .15s, border-color .15s, color .15s, transform .15s;
   }
-  nav li a .num{color:var(--gold); font-family:'IBM Plex Mono',monospace; font-size:.72rem; margin-right:7px;}
-  nav li a:hover{background:rgba(255,255,255,.07); border-left-color:var(--gold); color:#fff;}
-  nav li a.active{background:rgba(255,255,255,.13); border-left-color:var(--gold); color:#fff; font-weight:600;}
+  nav li a .num{color:var(--teal); font-family:'IBM Plex Mono',monospace; font-size:.72rem; margin-right:7px;}
+  nav li a:hover{background:rgba(255,255,255,.08); border-left-color:var(--teal); color:#fff; transform:translateX(2px);}
+  nav li a.active{background:rgba(255,255,255,.14); border-left-color:var(--maroon); color:#fff; font-weight:600;}
 
   /* ---------- Main ---------- */
   main{flex:1; min-width:0; padding:0;}
   .hero{
-    padding:78px 64px 56px;
-    background:
-      radial-gradient(circle at 82% 18%, rgba(179,134,44,.14), transparent 45%),
-      radial-gradient(circle at 10% 90%, rgba(29,92,99,.12), transparent 40%),
-      var(--paper);
+    padding:78px 64px 56px 64px;
+    padding-left:150px;
     border-bottom:1px solid var(--line);
+    position:relative;
   }
   .hero .eyebrow{
     font-family:'IBM Plex Mono',monospace; letter-spacing:.16em; text-transform:uppercase;
-    font-size:.75rem; color:var(--teal-deep); margin-bottom:14px;
+    font-size:.75rem; color:var(--teal); margin-bottom:14px;
   }
-  .hero h1{font-size:2.6rem; max-width:820px; margin:0 0 18px;}
+  .hero h1{font-size:2.6rem; max-width:820px; margin:0 0 18px; color:#fff;
+    background:linear-gradient(90deg,#fff, var(--teal-deep) 60%, var(--maroon-deep));
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  }
   .hero p.lead{max-width:680px; color:var(--muted); font-size:1.08rem; margin:0 0 26px;}
-  .hero .stat-row{display:flex; gap:34px; flex-wrap:wrap; margin-top:8px;}
-  .stat{border-left:3px solid var(--gold); padding-left:14px;}
-  .stat .n{font-family:'Fraunces',serif; font-size:1.9rem; color:var(--maroon); font-weight:600; display:block;}
+  .hero .stat-row{display:flex; gap:20px; flex-wrap:wrap; margin-top:8px;}
+  .stat{
+    border-left:3px solid var(--gold); padding:10px 18px 10px 14px;
+    background:var(--card); border-radius:0 12px 12px 0;
+    backdrop-filter:blur(14px); border-top:1px solid var(--glass-border); border-bottom:1px solid var(--glass-border); border-right:1px solid var(--glass-border);
+  }
+  .stat .n{font-family:'Fraunces',serif; font-size:1.9rem; color:var(--maroon-deep); font-weight:600; display:block;}
   .stat .l{font-family:'IBM Plex Mono',monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted);}
   .hero .note{
-    margin-top:30px; font-size:.85rem; color:var(--muted); background:var(--paper-deep);
-    padding:14px 18px; border-radius:8px; max-width:700px;
+    margin-top:30px; font-size:.85rem; color:var(--muted);
+    background:var(--card);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(16px) saturate(160%);
+    padding:14px 18px; border-radius:14px; max-width:700px;
   }
 
   .content{padding:8px 64px 100px;}
@@ -143,19 +250,21 @@
   .topic-head{margin-bottom:26px;}
   .topic-head .crumb{
     font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--teal-deep); margin-bottom:8px;
+    color:var(--teal); margin-bottom:8px;
   }
-  .topic-head h2{font-size:2rem; margin:0 0 10px;}
+  .topic-head h2{font-size:2rem; margin:0 0 10px; color:#fff;}
   .topic-head .src{
     font-family:'IBM Plex Mono',monospace; font-size:.75rem; color:var(--muted);
-    background:var(--paper-deep); display:inline-block; padding:4px 10px; border-radius:5px;
+    background:var(--card); border:1px solid var(--glass-border);
+    display:inline-block; padding:4px 10px; border-radius:8px;
+    backdrop-filter:blur(10px);
   }
 
   h3.sub{
     font-size:1.28rem; color:var(--teal-deep); margin:34px 0 12px;
-    padding-bottom:6px; border-bottom:2px solid var(--paper-deep);
+    padding-bottom:6px; border-bottom:2px solid var(--glass-border);
   }
-  h4.subsub{font-size:1.02rem; color:var(--maroon); margin:20px 0 8px;}
+  h4.subsub{font-size:1.02rem; color:var(--maroon-deep); margin:20px 0 8px;}
 
   p{margin:0 0 12px;}
   ul, ol{margin:0 0 14px; padding-left:22px;}
@@ -163,44 +272,79 @@
   li::marker{color:var(--gold);}
 
   .ref{
-    font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:#9c8f78;
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:#8b86a0;
     display:block; margin:-4px 0 14px;
   }
 
-  table{border-collapse:collapse; width:100%; margin:14px 0 22px; font-size:.92rem;}
+  table{border-collapse:collapse; width:100%; margin:14px 0 22px; font-size:.92rem;
+    background:var(--card); border-radius:14px; overflow:hidden;
+    backdrop-filter:blur(14px) saturate(160%);
+    border:1px solid var(--glass-border);
+  }
   caption{text-align:left; font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em;}
   th, td{border:1px solid var(--line); padding:8px 11px; text-align:left; vertical-align:top;}
-  th{background:var(--maroon); color:#fbf1e2; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:.78rem; text-transform:uppercase; letter-spacing:.03em;}
-  tr:nth-child(even) td{background:var(--paper-deep);}
+  th{background:rgba(255,107,139,.18); color:#ffd7e0; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:.78rem; text-transform:uppercase; letter-spacing:.03em;}
+  tr:nth-child(even) td{background:rgba(255,255,255,.03);}
 
   .grid2{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:16px 0 22px;}
   @media (max-width:760px){.grid2{grid-template-columns:1fr;}}
+
+  /* ---------- Glass cards with hover-lift ---------- */
   .card{
-    background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 18px;
+    background:var(--card);
+    border:1px solid var(--glass-border);
+    border-radius:16px; padding:16px 18px;
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    box-shadow:0 8px 30px rgba(0,0,0,.25);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease, background .35s ease;
+  }
+  .card:hover{
+    transform:translateY(-6px) scale(1.012);
+    box-shadow:0 20px 50px rgba(62,230,208,.15), 0 8px 20px rgba(0,0,0,.35);
+    border-color:rgba(62,230,208,.45);
+    background:var(--card-strong);
   }
   .card h4{margin-top:0; color:var(--teal-deep); font-size:.98rem;}
 
   .box{
-    border-radius:10px; padding:16px 20px; margin:18px 0; background:var(--paper-deep);
+    border-radius:16px; padding:16px 20px; margin:18px 0;
+    background:var(--card);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    box-shadow:0 8px 26px rgba(0,0,0,.22);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
+  }
+  .box:hover{
+    transform:translateY(-5px);
+    box-shadow:0 18px 44px rgba(0,0,0,.32);
+    border-color:rgba(255,255,255,.28);
   }
   .box.clinical{
-    background:#f7e9df; border:1px solid #e6c3ab;
+    background:rgba(255,107,139,.10);
+    border:1px solid rgba(255,107,139,.30);
   }
+  .box.clinical:hover{ border-color:rgba(255,107,139,.55); box-shadow:0 18px 44px rgba(255,107,139,.15);}
   .box.clinical .box-title{color:var(--maroon-deep);}
   .box-title{
     font-family:'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.09em;
     font-size:.74rem; font-weight:600; margin-bottom:8px; display:flex; align-items:center; gap:7px;
   }
-  .box-title .dot{width:8px;height:8px;border-radius:50%; background:var(--maroon); display:inline-block;}
-  .box.clinical .box-title .dot{background:#b2401f;}
+  .box-title .dot{width:8px;height:8px;border-radius:50%; background:var(--teal); display:inline-block; box-shadow:0 0 8px 1px rgba(62,230,208,.7);}
+  .box.clinical .box-title .dot{background:#ff8362; box-shadow:0 0 8px 1px rgba(255,131,98,.7);}
 
   .flow{
     display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 0 20px;
     font-family:'IBM Plex Mono',monospace; font-size:.82rem;
   }
   .flow span.step{
-    background:var(--teal); color:#eafaf6; padding:6px 12px; border-radius:20px;
+    background:rgba(62,230,208,.16); color:#c9fff5; padding:6px 12px; border-radius:20px;
+    border:1px solid rgba(62,230,208,.35);
+    backdrop-filter:blur(8px);
+    transition:transform .2s ease, background .2s ease;
   }
+  .flow span.step:hover{ transform:translateY(-2px); background:rgba(62,230,208,.28); }
   .flow span.arrow{color:var(--muted);}
 
   a.top-link{
@@ -213,11 +357,22 @@
   }
   .toc-mini a{
     font-family:'IBM Plex Mono',monospace; font-size:.72rem; padding:5px 11px; border-radius:20px;
-    background:var(--paper-deep); color:var(--maroon-deep); text-decoration:none; border:1px solid var(--line);
+    background:var(--card); color:var(--ink); text-decoration:none; border:1px solid var(--glass-border);
   }
 
   footer{
     padding:36px 64px 60px; color:var(--muted); font-size:.82rem; border-top:1px solid var(--line);
+  }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal-el{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal-el.in-view{
+    opacity:1;
+    transform:translateY(0);
   }
 
   @media (max-width:980px){
@@ -225,22 +380,33 @@
     .topbar{display:flex;}
     .sidebar{
       position:fixed; left:-320px; top:0; z-index:50; width:280px; transition:left .25s ease;
-      box-shadow:8px 0 30px rgba(0,0,0,.35);
+      box-shadow:8px 0 30px rgba(0,0,0,.5);
     }
     .sidebar.open{left:0;}
-    .hero{padding:40px 22px 34px;}
+    .hero{padding:40px 22px 34px; padding-left:22px;}
     .content{padding:0 22px 70px;}
     footer{padding:30px 22px 50px;}
     .hero h1{font-size:1.9rem;}
+    #backHomeBtn{ top:auto; }
   }
   @media print{
-    .sidebar, .topbar, a.top-link{display:none;}
+    .sidebar, .topbar, a.top-link, #backHomeBtn, #cursorDot, #cursorRing{display:none;}
     .layout{display:block;}
     main{width:100%;}
+    body{cursor:auto; background:#fff; color:#000;}
   }
 </style>
 </head>
 <body id="top">
+
+<div class="bg-fluid"></div>
+<div class="bg-noise"></div>
+<div id="cursorRing"></div>
+<div id="cursorDot"></div>
+
+<a href="#top" id="backHomeBtn" aria-label="Back Home">
+  <span class="arrow">⌂</span> Back Home
+</a>
 
 <div class="topbar">
   <span class="brand">Thorax &amp; Abdominopelvic Anatomy</span>
@@ -601,4 +767,917 @@
   <p>The <strong>anterior border</strong> is thin and short; on the left lung it is interrupted by the cardiac notch (occupied by the heart and pericardium), below which projects a tongue-shaped lingula. The <strong>posterior border</strong> is thick and rounded, running from the C7 spinous process to the T10 spinous process. The <strong>inferior border</strong> is semilunar, separating the costal and medial surfaces.<span class="ref">Slide 6</span></p>
 
   <h4 class="subsub">Surfaces</h4>
-  <p>The <strong>costal surface</strong> is large, smooth and convex, covered by costal pleura and endothoracic fascia, and relates to the lateral chest wall — the upper six ribs at the midclavicular line, upper eight at the midaxillary line, and upper ten at the scapular line. The <strong>medial surface</strong> has a small posterior vertebral part and a larger anterior mediastinal part. The <strong>diaphragmatic surface</strong> is concave, deeper on the right (because of the underlying liver) and shallower on the left (because of the stomach and spleen).
+  <p>The <strong>costal surface</strong> is large, smooth and convex, covered by costal pleura and endothoracic fascia, and relates to the lateral chest wall — the upper six ribs at the midclavicular line, upper eight at the midaxillary line, and upper ten at the scapular line. The <strong>medial surface</strong> has a small posterior vertebral part and a larger anterior mediastinal part. The <strong>diaphragmatic surface</strong> is concave, deeper on the right (because of the underlying liver) and shallower on the left (because of the stomach and spleen).<span class="ref">Slides 7–9</span></p>
+
+  <h3 class="sub">Lobes and Fissures</h3>
+  <p>The right lung has three lobes separated by two fissures (oblique and horizontal); the left lung has two lobes separated by one oblique fissure.<span class="ref">Slide 10</span></p>
+  <p>The right lung's <strong>oblique fissure</strong> runs obliquely down and forward, crossing the posterior border, while its <strong>horizontal fissure</strong> — unique to the right lung — starts from the oblique fissure at the midaxillary line and runs forward to the anterior border, separating the superior from the middle lobe.<span class="ref">Slide 11</span></p>
+  <p>The left lung's <strong>oblique fissure</strong> separates its superior and inferior lobes and runs more vertically than its right-sided counterpart.<span class="ref">Slide 12</span></p>
+
+  <h3 class="sub">Root and Hilum of the Lung</h3>
+  <p>The root connects the lung's medial surface to the mediastinum and comprises the structures entering or leaving at the hilum, which lies opposite the T5–T7 vertebral bodies.<span class="ref">Slide 13</span></p>
+  <div class="grid2">
+    <div class="card">
+      <h4>Root of the left lung</h4>
+      <p style="margin:0;">Principal bronchus; two bronchial arteries and their veins; pulmonary artery; two pulmonary veins; lymphatics; anterior and posterior pulmonary nerve plexuses.</p>
+    </div>
+    <div class="card">
+      <h4>Root of the right lung</h4>
+      <p style="margin:0;">Eparterial (above the artery) and hyparterial (below the artery) bronchi; one bronchial artery; pulmonary artery; two pulmonary veins; lymphatics; anterior and posterior pulmonary nerve plexuses.</p>
+    </div>
+  </div>
+  <p class="ref">Slide 14</p>
+
+  <table>
+    <caption>Right vs. left lung — key differences</caption>
+    <tr><th>Feature</th><th>Right Lung</th><th>Left Lung</th></tr>
+    <tr><td>Size / shape</td><td>Larger, shorter, broader</td><td>Smaller, longer, narrower</td></tr>
+    <tr><td>Weight</td><td>~700 g</td><td>~650 g</td></tr>
+    <tr><td>Lobes</td><td>Three (upper, middle, lower)</td><td>Two (upper, lower)</td></tr>
+    <tr><td>Fissures</td><td>Two (horizontal &amp; oblique)</td><td>One (oblique)</td></tr>
+    <tr><td>Anterior border</td><td>Straight</td><td>Has a cardiac notch</td></tr>
+    <tr><td>Hilar bronchi</td><td>Two — eparterial &amp; hyparterial</td><td>One — left principal bronchus</td></tr>
+  </table>
+  <p class="ref">Slide 15</p>
+
+  <h3 class="sub">Internal Architecture — The Bronchial Tree</h3>
+  <p>Internally each lung is built around the intrapulmonary bronchial tree: principal bronchus → lobar bronchi → (segmental bronchi) → terminal bronchioles → respiratory bronchioles.<span class="ref">Slide 16</span></p>
+  <div class="flow">
+    <span class="step">Trachea</span><span class="arrow">→</span>
+    <span class="step">Principal bronchus</span><span class="arrow">→</span>
+    <span class="step">Lobar bronchus</span><span class="arrow">→</span>
+    <span class="step">Segmental bronchus</span><span class="arrow">→</span>
+    <span class="step">Terminal bronchiole</span><span class="arrow">→</span>
+    <span class="step">Respiratory bronchiole</span><span class="arrow">→</span>
+    <span class="step">Alveoli</span>
+  </div>
+  <p>The trachea splits into right and left principal bronchi at the lower border of T4. The right principal bronchus is shorter, wider and more vertical (about 1 inch long, roughly 25° off the tracheal axis), while the left is narrower, longer and more horizontal (about 2 inches long, roughly 45° off axis).<span class="ref">Slide 17</span></p>
+  <p>The right principal bronchus divides into three lobar bronchi (one per lobe); the left divides into two. Lobar bronchi give rise to segmental (tertiary) bronchi, which branch to terminal bronchioles, which in turn give off respiratory bronchioles — the first airway generation to lack cartilage and to feature thin-walled outpocketings, the alveoli, where gas exchange happens.<span class="ref">Slide 18</span></p>
+
+  <h3 class="sub">Bronchopulmonary Segments</h3>
+  <p>These are the structural and functional building blocks of the lung, each independently served by its own segmental bronchus and artery. Because each segment is a self-contained unit, disease such as tuberculosis can stay confined to one segment while sparing its neighbours — a fact exploited surgically in segmentectomy. The right lung has ten bronchopulmonary segments; the left typically has eight to ten. Each segment is supplied by a segmental bronchus and a segmental branch of the pulmonary artery, and drained by intersegmental veins.<span class="ref">Slides 19–20</span></p>
+  <div class="grid2">
+    <div class="card">
+      <h4>Right lung segments</h4>
+      <p style="margin:0;"><em>Upper lobe:</em> apical, posterior, anterior.<br><em>Middle lobe:</em> lateral, medial.<br><em>Lower lobe:</em> superior, medial basal, anterior basal, lateral basal, posterior basal.</p>
+    </div>
+    <div class="card">
+      <h4>Left lung segments</h4>
+      <p style="margin:0;"><em>Upper lobe:</em> apicoposterior, superior lingular, inferior lingular.<br><em>Lower lobe:</em> superior, medial basal (variable), anterior basal, lateral basal, posterior basal.</p>
+    </div>
+  </div>
+  <p class="ref">Slides 21–22</p>
+
+  <h3 class="sub">Vasculature, Innervation &amp; Lymphatics</h3>
+  <p>The lungs receive a <strong>dual blood supply</strong>: pulmonary vessels (arteries and two veins per lung) for gas exchange, and bronchial arteries/veins for nutrition of the lung tissue itself. Innervation is parasympathetic (vagus nerve) and sympathetic (sympathetic trunks). Lymphatics arise from a superficial (subpleural) plexus draining the lung parenchyma and a deep plexus draining the root structures; both empty into the tracheobronchial nodes.<span class="ref">Slide 23</span></p>
+
+  <h3 class="sub">The Path of Blood Oxygenation</h3>
+  <div class="flow">
+    <span class="step">Right ventricle</span><span class="arrow">→</span>
+    <span class="step">Pulmonary trunk</span><span class="arrow">→</span>
+    <span class="step">R &amp; L pulmonary arteries</span><span class="arrow">→</span>
+    <span class="step">Pulmonary capillaries</span><span class="arrow">→</span>
+    <span class="step">Gas exchange at alveoli</span><span class="arrow">→</span>
+    <span class="step">4 pulmonary veins</span><span class="arrow">→</span>
+    <span class="step">Left atrium</span>
+  </div>
+  <p>Deoxygenated blood leaves the right ventricle via the pulmonary trunk, which splits to carry blood to each lung; within the lung, arterial branches ramify down to capillary beds surrounding the alveoli, where oxygen diffuses into the blood and carbon dioxide diffuses out into the alveolar air for exhalation. Oxygen-rich blood then returns via the four pulmonary veins to the left atrium, completing the circuit.<span class="ref">Slides 24–26</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations</div>
+    <p><strong>Pulmonary hypertension:</strong> raised pulmonary venous pressure can compromise heart function; high left-atrial pressure can back up into the pulmonary veins and cause pulmonary congestion.</p>
+    <p><strong>Pneumonia:</strong> infection fills the alveoli with fluid or pus, impairing gas exchange; it may stay localised or spread to involve whole lobes (lobar pneumonia).</p>
+    <p><strong>COPD:</strong> airway narrowing from inflammation and mucus in the bronchi. <strong>Emphysema</strong> — enlarged air spaces with reduced surface area and lost elasticity — affects the alveoli and their supporting connective tissue.</p>
+    <p style="margin-bottom:0;"><strong>Tuberculosis:</strong> forms granulomas, favouring the oxygen-rich upper lobes, and can scar tissue, cavitate, and stiffen the lung. <strong>Lung cancer:</strong> bronchogenic carcinomas begin in the bronchi, adenocarcinomas in the bronchioles/alveoli; tumours can obstruct airways and invade surrounding structures.</p>
+  </div>
+  <span class="ref">Slides 27–29</span>
+  <a class="top-link" href="#top">↑ Back to top</a>
+</section>
+
+<section class="topic" id="heart">
+  <div class="topic-head">
+    <div class="crumb">Unit I · Topic 06</div>
+    <h2>The Heart</h2>
+    <span class="src">Source deck: “Heart” — Slides 1–30</span>
+  </div>
+
+  <p>The heart is a hollow, muscular, roughly pyramidal organ housed in the mediastinum and wrapped by the pericardium, lying obliquely behind the sternum and adjoining costal cartilages. It has four chambers — right atrium, right ventricle, left atrium, left ventricle. Externally, the atrioventricular (coronary) groove separates atria from ventricles, and interventricular grooves separate the two ventricles. Average measurements: length 12 cm, width 9 cm, weight ~300 g in males and ~250 g in females.<span class="ref">Slide 2</span></p>
+
+  <h3 class="sub">Relations of the Heart</h3>
+  <ul>
+    <li><strong>Superior:</strong> aorta, SVC, pulmonary artery and veins</li>
+    <li><strong>Inferior:</strong> diaphragm</li>
+    <li><strong>Anterior:</strong> ribs, sternum, intercostal muscles</li>
+    <li><strong>Posterior:</strong> oesophagus, trachea, right/left bronchi, descending aorta, IVC, thoracic vertebrae</li>
+    <li><strong>Lateral:</strong> lungs</li>
+  </ul>
+  <p class="ref">Slide 3</p>
+
+  <h3 class="sub">External Features</h3>
+  <p>Apex, base, three surfaces (sternocostal, diaphragmatic, left) and four borders (right, left, upper, inferior).<span class="ref">Slide 4</span></p>
+  <p>The <strong>apex</strong>, formed by the left ventricle, points down, forward and left, and lies at the level of the 5th left intercostal space, roughly 9 cm from the midline, just medial to the midclavicular line.<span class="ref">Slide 5</span></p>
+  <p>The <strong>base</strong> (posterior surface), formed chiefly by the left atrium, faces backward and to the right and lies opposite the apex, in front of T5–T8 (lying down) or T6–T9 (standing).<span class="ref">Slide 6</span></p>
+
+  <h4 class="subsub">Surfaces</h4>
+  <p>The <strong>sternocostal (anterior) surface</strong> is formed mainly by the right atrium and right ventricle (divided by the anterior atrioventricular groove), with a smaller contribution from the left auricle and ventricle; the right and left ventricles here are separated by the anterior interventricular groove. The <strong>diaphragmatic surface</strong> is flat, resting on the central tendon, formed by both ventricles separated by the posterior interventricular groove. The <strong>left surface</strong> is formed mainly by the left ventricle plus part of the left atrium and auricle, facing up, back and left.<span class="ref">Slides 7–8</span></p>
+
+  <h4 class="subsub">Borders</h4>
+  <table>
+    <tr><th>Border</th><th>Shape</th><th>Formed By</th><th>Extent</th></tr>
+    <tr><td>Right</td><td>Roughly vertical</td><td>Right atrium</td><td>Opening of SVC to opening of IVC; separates base from sternocostal surface</td></tr>
+    <tr><td>Left</td><td>Curved, oblique</td><td>Mainly left ventricle</td><td>Left auricle to apex; separates sternocostal from left surface</td></tr>
+    <tr><td>Inferior</td><td>Nearly horizontal</td><td>Right ventricle</td><td>IVC opening to apex</td></tr>
+    <tr><td>Upper (superior)</td><td>Slightly oblique</td><td>Both atria, mainly left</td><td>Hidden anteriorly by the ascending aorta and pulmonary trunk</td></tr>
+  </table>
+  <p class="ref">Slides 9–10</p>
+
+  <h3 class="sub">The Pericardium</h3>
+  <p>A double-walled sac enclosing the heart, made of a tough <strong>fibrous pericardium</strong> (dense, inelastic connective tissue that prevents overstretching, protects the heart, and anchors it in the mediastinum) and a thinner <strong>serous pericardium</strong> with two layers — an outer parietal layer fused to the fibrous pericardium, and an inner visceral layer that hugs the heart's own surface.<span class="ref">Slides 11–12</span></p>
+  <p><strong>Pericardial sinuses</strong> are lines of reflection between the visceral and parietal layers: the <strong>transverse pericardial sinus</strong> lies in front of the SVC and behind the ascending aorta/pulmonary trunk; the <strong>oblique pericardial sinus</strong> lies behind the heart within the pericardial sac.<span class="ref">Slide 13</span></p>
+
+  <h3 class="sub">The Four Chambers</h3>
+  <p>Atria receive blood into the heart; ventricles pump it out.<span class="ref">Slide 14</span></p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Right Atrium</h4>
+      <p style="margin:0;">Forms the right heart border; receives blood from the SVC, IVC and coronary sinus. Wall thickness 2–3 mm; posterior wall smooth, anterior wall roughened by pectinate muscles. The interatrial septum separates the two atria and bears an oval depression, the fossa ovalis. Blood passes to the right ventricle through the tricuspid (three-cusped) valve, whose cusps anchor via chordae tendineae to papillary muscles.</p>
+    </div>
+    <div class="card">
+      <h4>Right Ventricle</h4>
+      <p style="margin:0;">Pumps blood to the lungs via the pulmonary trunk. Its inflow tract is roughened by trabeculae carneae; its outflow tract, the conus arteriosus (infundibulum), is smooth and leads to the pulmonary valve. Anterior, posterior and septal papillary muscles anchor the tricuspid cusps via chordae tendineae, preventing valve prolapse during systole. The moderator band (septomarginal trabecula) carries part of the right bundle branch to the anterior papillary muscle.</p>
+    </div>
+    <div class="card">
+      <h4>Left Atrium</h4>
+      <p style="margin:0;">Similar wall thickness to the right atrium; forms the base of the heart. Receives blood from the lungs via four pulmonary veins, and passes it to the left ventricle through the bicuspid (mitral) valve.</p>
+    </div>
+    <div class="card">
+      <h4>Left Ventricle</h4>
+      <p style="margin:0;">Pumps oxygenated blood into the aorta for systemic circulation; its walls are thicker than the right ventricle's to generate higher pressure. Inflow tract has trabeculae carneae; outflow tract is the aortic vestibule leading to the aortic valve. Two papillary muscles anchor the mitral valve via chordae tendineae.</p>
+    </div>
+  </div>
+  <p class="ref">Slides 15–17</p>
+
+  <h3 class="sub">Circulation of Blood Through the Heart</h3>
+  <p>Functionally the heart is two pumps side by side. The <strong>right pump</strong> (right atrium + right ventricle) drives the pulmonary circulation; the <strong>left pump</strong> (left atrium + left ventricle) drives the systemic circulation.</p>
+  <div class="flow">
+    <span class="step">SVC / IVC</span><span class="arrow">→</span>
+    <span class="step">Right atrium</span><span class="arrow">→</span>
+    <span class="step">Tricuspid valve</span><span class="arrow">→</span>
+    <span class="step">Right ventricle</span><span class="arrow">→</span>
+    <span class="step">Pulmonary trunk → lungs</span><span class="arrow">→</span>
+    <span class="step">Pulmonary veins</span><span class="arrow">→</span>
+    <span class="step">Left atrium</span><span class="arrow">→</span>
+    <span class="step">Mitral valve</span><span class="arrow">→</span>
+    <span class="step">Left ventricle</span><span class="arrow">→</span>
+    <span class="step">Aorta → body</span>
+  </div>
+  <p>The atrioventricular valves stop blood regurgitating back into the atria during ventricular contraction.<span class="ref">Slides 18–19</span></p>
+
+  <h3 class="sub">Valves of the Heart</h3>
+  <p>Two pairs of valves prevent backflow: a pair of <strong>atrioventricular valves</strong> and a pair of <strong>semilunar valves</strong>.</p>
+  <ul>
+    <li><strong>Right AV valve (tricuspid):</strong> three cusps — anterior, posterior, septal — lying against the ventricular walls.</li>
+    <li><strong>Left AV valve (bicuspid/mitral):</strong> two cusps — a larger anterior (aortic) cusp and a smaller posterior cusp.</li>
+    <li><strong>Semilunar valves</strong> guard the pulmonary and aortic orifices, each with three cusps attached directly to the wall of the great vessel.</li>
+  </ul>
+  <p class="ref">Slides 20–21</p>
+
+  <h3 class="sub">The Conducting System</h3>
+  <p>A specialised network of cardiac muscle cells generates and conducts the electrical impulses that initiate and coordinate each heartbeat. Its components: the SA node, AV node, bundle of His, right/left bundle branches, and Purkinje fibres.<span class="ref">Slide 22</span></p>
+
+  <table>
+    <caption>Conducting system components</caption>
+    <tr><th>Structure</th><th>Location</th><th>Role</th><th>Blood Supply</th></tr>
+    <tr><td>SA node ("pacemaker")</td><td>Junction of SVC and right atrial wall, within the crista terminalis; built of small, pale P cells</td><td>Spontaneously depolarises, initiating atrial contraction</td><td>Right coronary artery</td></tr>
+    <tr><td>AV node ("gateway")</td><td>Interatrial septum, in the triangle of Koch near the coronary sinus opening, just above the tricuspid valve</td><td>Receives the atrial impulse and delays it ~0.1 s before passing it on</td><td>AV nodal branch of right coronary artery</td></tr>
+    <tr><td>Bundle of His</td><td>Continues from the AV node, splitting atop the interventricular septum</td><td>Carries the impulse toward the Purkinje fibres via right and left bundle branches</td><td>—</td></tr>
+    <tr><td>Purkinje fibres</td><td>Arise from both bundle branches</td><td>Spread the impulse through the ventricular muscle for coordinated systole</td><td>—</td></tr>
+  </table>
+  <p class="ref">Slides 23–26</p>
+
+  <div class="flow">
+    <span class="step">SA node</span><span class="arrow">→</span>
+    <span class="step">Atrial walls</span><span class="arrow">→</span>
+    <span class="step">AV node (delay)</span><span class="arrow">→</span>
+    <span class="step">Bundle of His</span><span class="arrow">→</span>
+    <span class="step">Bundle branches</span><span class="arrow">→</span>
+    <span class="step">Purkinje fibres</span><span class="arrow">→</span>
+    <span class="step">Ventricular contraction</span>
+  </div>
+  <p class="ref">Slide 27</p>
+
+  <h3 class="sub">Neurovasculature</h3>
+  <p><strong>Arterial supply:</strong> right and left coronary arteries. <strong>Venous drainage:</strong> mainly the coronary sinus, plus anterior cardiac veins (draining directly into the right atrium) and the smallest cardiac (Thebesian) veins (draining directly into the chambers). <strong>Lymphatics:</strong> subepicardial plexus → tracheobronchial nodes. <strong>Nerve supply:</strong> the autonomic cardiac plexus, with sympathetic fibres from T1–T5 increasing rate and force, and parasympathetic fibres from the vagus (CN X) slowing the heart.<span class="ref">Slide 29</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations</div>
+    <ul style="margin-bottom:0;">
+      <li><strong>SA node dysfunction:</strong> failure of normal pacemaker activity can produce bradycardia.</li>
+      <li><strong>AV node block (heart block):</strong> delayed or blocked conduction from atria to ventricles, often requiring an artificial pacemaker.</li>
+      <li><strong>Coronary artery disease:</strong> blocked coronary arteries reduce myocardial blood flow and can precipitate myocardial infarction.</li>
+      <li><strong>Pericarditis:</strong> pericardial inflammation causing chest pain typically eased by sitting forward; may progress to pericardial effusion.</li>
+      <li><strong>Atrial/ventricular septal defects (ASD/VSD):</strong> abnormal openings allowing left-to-right shunting, risking heart failure or pulmonary hypertension if untreated.</li>
+      <li><strong>Cardiomegaly:</strong> enlargement, especially of the left ventricle, seen in hypertension, valvular disease or heart failure, and detected on chest X-ray or echocardiogram.</li>
+    </ul>
+  </div>
+  <span class="ref">Slide 30</span>
+  <a class="top-link" href="#top">↑ Back to top</a>
+</section>
+
+<section class="topic" id="pelvis">
+  <div class="topic-head">
+    <div class="crumb">Unit II · Topic 07</div>
+    <h2>The Bony Pelvis</h2>
+    <span class="src">Source deck: “Anatomy of the Pelvis” — Slides 1–42</span>
+  </div>
+
+  <p>The pelvis is the region encircled by the bony pelvic girdle, sitting inferoposterior to the abdomen and forming the transition zone between trunk and lower limb. The pelvic cavity is the lowest part of the abdominopelvic cavity, and the pelvis as a whole is subdivided into a greater and a lesser pelvis. Externally it is bordered by the inferior anterolateral abdominal wall in front, the gluteal region behind and to the sides, and the perineum below.<span class="ref">Slides 3–4</span></p>
+
+  <h3 class="sub">Bones of the Pelvic Girdle</h3>
+  <p>Three bones form the pelvic girdle in the mature skeleton: the right and left hip bones, plus the sacrum and coccyx. In children each hip bone is three separate bones (ilium, ischium, pubis) joined at the acetabulum by a Y-shaped (triradiate) cartilage; after puberty these fuse into one hip bone. The two hip bones meet in front at the pubic symphysis and behind the sacrum at the sacro-iliac joints.<span class="ref">Slides 5–6</span></p>
+
+  <h4 class="subsub">Ilium</h4>
+  <p>The superior, widest, fan-shaped part of the hip bone — its "ala" (wing) is the fan's spread, its body the fan's handle, and the body helps form the acetabulum. The iliac crest runs the rim of the fan between the anterior and posterior superior iliac spines. The concave anteromedial surface of the ala is the iliac fossa; posteriorly the sacropelvic surface bears an auricular surface (synovial articulation with the sacrum) and an iliac tuberosity (ligamentous attachment).<span class="ref">Slide 7</span></p>
+
+  <h4 class="subsub">Ischium</h4>
+  <p>Has a body (helping form the acetabulum) and a ramus (helping form the obturator foramen border). Key landmarks: the ischial tuberosity (large postero-inferior projection), the ischial spine (small pointed projection where ramus meets body), the lesser sciatic notch (between spine and tuberosity), and the greater sciatic notch (larger, above the spine, formed partly by the ilium).<span class="ref">Slide 9</span></p>
+
+  <h4 class="subsub">Pubis</h4>
+  <p>An angulated bone with a superior ramus (contributing to the acetabulum) and an inferior ramus (bordering the obturator foramen). The pubic crest thickens the anterior body and ends laterally at the pubic tubercle; the superior ramus carries an oblique ridge, the pecten pubis (pectineal line).<span class="ref">Slide 10</span></p>
+
+  <h4 class="subsub">Sacrum</h4>
+  <p>Five fused, wedge-shaped sacral vertebrae, wedged between the hip bones to form the roof and posterosuperior wall of the pelvic cavity. It transmits body weight to the pelvic girdle and has a base, apex, four surfaces (pelvic, dorsal, two lateral) and a sacral canal.<span class="ref">Slide 11</span></p>
+
+  <h4 class="subsub">Coccyx</h4>
+  <p>A small triangular "tailbone" usually formed by fusion of four rudimentary coccygeal vertebrae (Co1 sometimes stays separate). Its short transverse processes connect to the sacrum; with age Co1 often fuses to the sacrum and the remaining segments fuse into one bone.<span class="ref">Slide 12</span></p>
+
+  <h3 class="sub">Greater vs. Lesser Pelvis</h3>
+  <p>An oblique plane through the pelvic inlet (superior pelvic aperture) splits the pelvis into the <strong>greater (false) pelvis</strong>, ringed by the upper pelvic girdle and occupied by lower abdominal viscera, and the <strong>lesser (true) pelvis</strong>, ringed by the lower pelvic girdle and providing the skeletal framework for both the pelvic cavity and the perineum.<span class="ref">Slide 13</span></p>
+
+  <h4 class="subsub">Pelvic Inlet and Outlet</h4>
+  <p>The <strong>pelvic inlet</strong>'s rim (the pelvic brim) is formed by the sacral promontory and ala, plus a right and left linea terminalis — the continuous ridge made of the arcuate line of the ilium, the pecten pubis and the pubic crest.<span class="ref">Slide 14</span></p>
+  <p>The <strong>pelvic outlet</strong> is bounded by the pubic arch anteriorly, the ischial tuberosities laterally, the sacrotuberous ligaments posterolaterally, and the coccyx tip posteriorly. The pubic arch is formed where the right and left ischiopubic rami meet at the pubic symphysis, their lower borders defining the subpubic angle.<span class="ref">Slide 15</span></p>
+  <p>The <strong>greater pelvis</strong> lies above the inlet, bounded by the iliac alae and the front of S1, and houses abdominal viscera such as loops of ileum and the sigmoid colon. The <strong>lesser pelvis</strong> lies between inlet and outlet, bounded by the pelvic surfaces of the hip bones, sacrum and coccyx, and contains the true pelvic cavity plus the deep perineal compartment (including the ischio-anal fossae).<span class="ref">Slides 16–17</span></p>
+
+  <h3 class="sub">Sexual Dimorphism of the Pelvis</h3>
+  <p>The pelvis shows the clearest skeletal sex differences in the body, reflecting men's typically heavier build and the female pelvis's adaptation (especially the lesser pelvis) for childbirth.<span class="ref">Slide 18</span></p>
+  <table>
+    <caption>Male vs. female bony pelvis</caption>
+    <tr><th>Feature</th><th>Male</th><th>Female</th></tr>
+    <tr><td>General build</td><td>Thick, heavy</td><td>Thin, light</td></tr>
+    <tr><td>Greater pelvis</td><td>Deep</td><td>Shallow</td></tr>
+    <tr><td>Lesser pelvis</td><td>Narrow, deep, tapering</td><td>Wide, shallow, cylindrical</td></tr>
+    <tr><td>Pelvic inlet</td><td>Heart-shaped, narrow</td><td>Oval, rounded, wide</td></tr>
+    <tr><td>Pelvic outlet</td><td>Relatively small</td><td>Relatively large</td></tr>
+    <tr><td>Subpubic angle</td><td>Narrow (&lt;70°)</td><td>Wide (&gt;80°)</td></tr>
+    <tr><td>Obturator foramen</td><td>Round</td><td>Oval</td></tr>
+    <tr><td>Acetabulum</td><td>Large</td><td>Small</td></tr>
+    <tr><td>Greater sciatic notch</td><td>Narrow (~70°, inverted V)</td><td>Wide (~90°)</td></tr>
+    <tr><td>Sacrum</td><td>Long, narrow</td><td>Short, wide</td></tr>
+  </table>
+  <p class="ref">Slide 19</p>
+
+  <h3 class="sub">Pelvic Joints &amp; Ligaments</h3>
+  <ul>
+    <li><strong>Sacro-iliac joints:</strong> strong, weight-bearing compound joints with only limited mobility. Body weight transfers from the axial skeleton through these joints and their supporting ligaments to the femurs (standing) or ischial tuberosities (sitting). The sacrum is effectively slung between the ilia by posterior and interosseous sacro-iliac ligaments, along with anterior sacro-iliac, sacrotuberous and sacrospinous ligaments.<span class="ref">Slide 21</span></li>
+    <li><strong>Pubic symphysis:</strong> a fibrocartilaginous interpubic disc (wider in women) plus surrounding ligaments joins the pubic bodies in the midline; superior and inferior pubic ligaments thicken the margins.<span class="ref">Slide 22</span></li>
+    <li><strong>Lumbosacral joints:</strong> the anterior L5/S1 intervertebral disc joint plus two posterior zygapophysial joints, reinforced by fan-shaped iliolumbar ligaments.<span class="ref">Slide 23</span></li>
+    <li><strong>Sacrococcygeal joint:</strong> a secondary cartilaginous joint with an intervertebral disc, reinforced by anterior and posterior sacrococcygeal ligaments.<span class="ref">Slide 24</span></li>
+  </ul>
+
+  <h3 class="sub">Pelvic Walls and Floor</h3>
+  <p>The pelvic cavity has an antero-inferior wall, two lateral walls, a posterior wall, and a floor.<span class="ref">Slide 25</span></p>
+  <ul>
+    <li><strong>Antero-inferior wall:</strong> formed mainly by the pubic bodies/rami and the pubic symphysis; helps bear the weight of the bladder.</li>
+    <li><strong>Lateral walls:</strong> each hip bone, including an obturator foramen closed by the obturator membrane; the obturator internus muscle pads most of this wall.<span class="ref">Slide 26</span></li>
+    <li><strong>Posterior wall:</strong> a bony midline component (sacrum and coccyx) plus musculoligamentous posterolateral walls formed by sacro-iliac ligaments and the piriformis muscles, which run from the sacrum to the greater trochanter and fill much of the greater sciatic foramen.<span class="ref">Slide 27</span></li>
+  </ul>
+
+  <h4 class="subsub">Pelvic Floor — the Pelvic Diaphragm</h4>
+  <p>A bowl- or funnel-shaped muscular sheet built from the coccygeus and levator ani muscles plus their covering fasciae. It lies within the lesser pelvis, separating the pelvic cavity above from the perineum below, forming the perineum's roof.<span class="ref">Slide 28</span></p>
+  <p><strong>Coccygeus</strong> arises from the lateral inferior sacrum/coccyx and attaches to the deep surface of the sacrospinous ligament. <strong>Levator ani</strong> attaches to the pubic bones anteriorly, the ischial spines posteriorly, and the tendinous arch between them; its urogenital hiatus — a gap between the muscle's medial borders — allows passage of the urethra and, in females, the vagina.<span class="ref">Slide 29</span></p>
+  <p>Levator ani has three parts: <strong>puborectalis</strong> (thick, medial, forms a U-shaped sling behind the anorectal junction, bounding the urogenital hiatus); <strong>pubococcygeus</strong> (wider, thinner, lateral fibres to the coccyx and medial fibres forming part of the anococcygeal body, with slips extending to midline structures such as puboprostaticus, pubovaginalis and puboanalis); and <strong>iliococcygeus</strong> (thin, posterolateral, blending into the anococcygeal body).<span class="ref">Slide 30</span></p>
+  <p>Together the levator ani muscles support the abdominopelvic viscera, resist rises in intra-abdominal pressure, and assist forced expiration, coughing, sneezing, vomiting, urination, defecation and trunk fixation during heavy lifting.<span class="ref">Slide 32</span></p>
+
+  <h3 class="sub">Pelvic Arteries</h3>
+  <p>Six main arteries enter the female lesser pelvis: the paired internal iliac and ovarian arteries, plus the unpaired median sacral and superior rectal arteries. In males, the testicular arteries stay outside the pelvis, so only four main arteries enter.<span class="ref">Slide 33</span></p>
+  <p>The <strong>internal iliac artery</strong>, about 4 cm long, arises where the common iliac artery bifurcates (at the L5/S1 disc) and is the chief pelvic artery, supplying most pelvic viscera and part of the musculoskeletal pelvis. It usually ends at the greater sciatic foramen by splitting into anterior and posterior divisions.<span class="ref">Slide 34</span></p>
+
+  <table>
+    <caption>Branches of the internal iliac artery</caption>
+    <tr><th>Division</th><th>Branch</th><th>Supplies</th></tr>
+    <tr><td rowspan="7">Anterior (mainly visceral)</td><td>Umbilical artery</td><td>Fetal placenta (prenatal); gives rise to superior vesical artery (postnatal, to bladder)</td></tr>
+    <tr><td>Obturator artery</td><td>Thigh adductor muscles</td></tr>
+    <tr><td>Inferior vesical artery</td><td>Lower bladder, prostate, seminal vesicles</td></tr>
+    <tr><td>Vaginal artery</td><td>Vagina, inferior bladder, rectum (female homolog of inferior vesical)</td></tr>
+    <tr><td>Middle rectal artery</td><td>Distal rectum</td></tr>
+    <tr><td>Uterine artery</td><td>Cervix, vagina, uterus, ovary, uterine tube</td></tr>
+    <tr><td>Internal pudendal / inferior gluteal arteries</td><td>Perineum; buttock &amp; posterior thigh muscles/skin</td></tr>
+    <tr><td rowspan="3">Posterior (mainly parietal)</td><td>Iliolumbar artery</td><td>Iliacus, ilium, psoas major, quadratus lumborum</td></tr>
+    <tr><td>Lateral sacral arteries</td><td>Erector spinae, sacral skin</td></tr>
+    <tr><td>Superior gluteal artery</td><td>Gluteal muscles</td></tr>
+  </table>
+  <p>Additional vessels: the ovarian artery (ovary, uterine tube), median sacral artery (posterior rectum), and superior rectal artery (internal anal sphincter).<span class="ref">Slides 35–37</span></p>
+
+  <h3 class="sub">Pelvic Veins &amp; Lymph Nodes</h3>
+  <p>Tributaries of the internal iliac vein largely mirror the arteries (though no vein accompanies the umbilical artery). Internal and external iliac veins merge into common iliac veins, which unite at L4/L5 to form the IVC. The rectal, vesical, prostatic, uterine and vaginal venous plexuses drain chiefly into the internal iliac veins, alongside superior gluteal and lateral sacral veins, the median sacral vein, and (in females) the ovarian veins.<span class="ref">Slide 38</span></p>
+  <p><strong>Lymph nodes:</strong> external iliac nodes (receive from inguinal nodes and pelvic viscera); internal iliac nodes (inferior pelvic viscera, deep perineum, gluteal region); sacral nodes (postero-inferior pelvic viscera); all drain toward the common iliac nodes.<span class="ref">Slide 40</span></p>
+  <p>Pelvic innervation comes chiefly from the sacral and coccygeal spinal nerves along with the pelvic part of the autonomic nervous system.<span class="ref">Slide 41</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations</div>
+    <p><strong>Injury to pelvic nerves:</strong> during childbirth, the fetal head can compress the mother's sacral plexus, causing lower-limb pain; stretching of the nerve supply to levator ani can weaken pelvic-organ support, contributing to urinary or faecal incontinence.</p>
+    <p><strong>Pelvic fractures:</strong> anteroposterior compression (e.g. a crush injury) commonly fractures the pubic rami.</p>
+    <p style="margin-bottom:0;"><strong>Pelvic floor injury:</strong> during childbirth the pelvic floor supports the fetal head as the cervix dilates, risking tears of the perineum, levator ani (commonly pubococcygeus and puborectalis) and pelvic fascia, which can compromise support of the urethra, vagina and anal canal.</p>
+  </div>
+  <span class="ref">Slide 42</span>
+  <a class="top-link" href="#top">↑ Back to top</a>
+</section>
+
+<section class="topic" id="intestines">
+  <div class="topic-head">
+    <div class="crumb">Unit II · Topic 08</div>
+    <h2>Small &amp; Large Intestine</h2>
+    <span class="src">Source deck: “Small and Large Intestines” — Slides 1–32</span>
+  </div>
+
+  <h3 class="sub">Small Intestine — Overview</h3>
+  <p>The gastrointestinal segment following the stomach, roughly 6.5 m long in an average person, running from the pylorus to the ileocaecal junction, and the primary site of digestion and absorption. It comprises a fixed proximal part, the duodenum (about 25 cm/10 inches), followed by the freely mobile jejunum and ileum.<span class="ref">Slide 3</span></p>
+
+  <h3 class="sub">Duodenum</h3>
+  <p>The first part of the small intestine, beginning at the pyloric sphincter and curving posteriorly behind the peritoneum (i.e. retroperitoneal) in a C-shape around the pancreatic head before ascending back into the peritoneal cavity to meet the jejunum at the duodenojejunal junction. It receives chyme from the stomach and mixes it with bile and pancreatic enzymes.<span class="ref">Slide 4</span></p>
+
+  <table>
+    <caption>The four parts of the duodenum</caption>
+    <tr><th>Part</th><th>Length</th><th>Course</th></tr>
+    <tr><td>Superior</td><td>~5 cm</td><td>Ascends from the pylorus, anterolateral to L1; overlapped by liver and gallbladder, linked to the liver by the hepatoduodenal ligament</td></tr>
+    <tr><td>Descending</td><td>7–10 cm</td><td>Descends along the right side of L1–L3, curving around the pancreatic head</td></tr>
+    <tr><td>Inferior</td><td>6–8 cm</td><td>Crosses L3, initially right of and parallel to the IVC, with the pancreatic head above it</td></tr>
+    <tr><td>Ascending</td><td>~5 cm</td><td>Begins at L3, ascends and curves anteriorly to meet the jejunum at the duodenojejunal flexure</td></tr>
+  </table>
+  <p class="ref">Slide 5</p>
+
+  <p><strong>Duodenal vasculature:</strong> proximal duodenum via the superior pancreaticoduodenal and gastroduodenal arteries; distal duodenum via the inferior pancreaticoduodenal artery. Venous drainage flows to the hepatic portal vein (union of the superior mesenteric and splenic veins). Lymph drains to pancreatoduodenal and superior mesenteric nodes. Nerve supply comes from the vagus and the greater/lesser splanchnic nerves.<span class="ref">Slide 6</span></p>
+
+  <h3 class="sub">Jejunum &amp; Ileum</h3>
+  <p>These run on without a sharp demarcation from the duodenojejunal junction (left of L2) to the ileocolic junction near the right sacro-iliac joint, together measuring 6–7 m. Most jejunum sits in the left upper quadrant, most ileum in the right lower quadrant. Both are suspended from the posterior abdominal wall by the mesentery of the small intestine, giving them considerable mobility; the terminal ileum typically lies in the pelvis before ascending to meet the medial cecum.<span class="ref">Slide 7</span></p>
+  <p><strong>Vasculature:</strong> supplied by the superior mesenteric artery via jejunal and ileal branches, drained by the superior mesenteric vein, with lymph to superior mesenteric nodes. Sympathetic fibres arise from T10–T11 via splanchnic nerves and the superior mesenteric plexus; parasympathetic fibres come from the vagus via the coeliac and superior mesenteric plexuses.<span class="ref">Slide 8</span></p>
+
+  <h3 class="sub">Large Intestine — Overview</h3>
+  <p>About 1.5 m long, running from the cecum in the right iliac fossa to the anus. Apart from the transverse and sigmoid colon, it is more fixed in position than the small intestine. Its jobs: absorbing water to solidify faeces; storing, lubricating and expelling faeces; synthesising vitamin B-complex via resident bacterial flora; and protecting against microbial invasion through IgA-rich mucus.<span class="ref">Slide 9</span></p>
+  <p>Its parts, in sequence: cecum, appendix, ascending colon, transverse colon, descending colon, sigmoid colon, rectum, anal canal.<span class="ref">Slide 10</span></p>
+
+  <h3 class="sub">Cecum</h3>
+  <p>The first part of the large intestine, a blind pouch roughly 6–7.5 cm in length and breadth, conical in shape and located in the right iliac fossa above the lateral half of the inguinal ligament; when distended with gas or faeces it may be palpable through the abdominal wall. It communicates upward with the ascending colon, medially at the ileocaecal junction with the ileum, and posteromedially with the appendix.<span class="ref">Slide 11</span></p>
+  <p><strong>Relations:</strong> anteriorly, coils of small intestine, greater omentum, and the anterior abdominal wall; posteriorly, right psoas major and iliacus, the femoral nerve, lateral cutaneous nerve of the thigh, genitofemoral nerve, and right gonadal vessels. The ileocaecal valve, between cecum and ileum, prevents reflux of colonic contents into the ileum.<span class="ref">Slide 12</span></p>
+  <p><strong>Vasculature:</strong> anterior/posterior caecal branches of the ileocolic artery (from the SMA); venous drainage to the superior mesenteric → portal system; lymph to ileocolic nodes → superior mesenteric pre-aortic nodes; sympathetic supply from T11–L1 via the superior mesenteric plexus, parasympathetic from both vagi.<span class="ref">Slide 12</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Note — Cecum</div>
+    <p style="margin-bottom:0;">Failure of the ileocaecal sphincter to relax during prolonged large-bowel obstruction can distend and rupture the cecum if not relieved. <strong>Caecal volvulus</strong> — twisting of a mobile cecum on its mesentery — causes abdominal pain, distension and vomiting, and typically needs imaging plus surgical correction.</p>
+  </div>
+  <span class="ref">Slide 13</span>
+
+  <h3 class="sub">Appendix</h3>
+  <p>A blind diverticulum, 6–10 cm long, packed with lymphoid tissue, arising from the posteromedial cecum just below the ileocaecal junction. It has its own short triangular mesentery (the meso-appendix), derived from the mesentery of the terminal ileum. Its position varies but is most often retrocecal.<span class="ref">Slide 14</span></p>
+  <p><strong>Vasculature:</strong> the appendicular artery (from the ileocolic artery); venous drainage via the ileocolic vein; lymph to ileocolic nodes and meso-appendix nodes; sympathetic supply from T10 via the lesser splanchnic nerve and superior mesenteric plexus, parasympathetic from the vagus.<span class="ref">Slide 15</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Note — Appendix</div>
+    <p style="margin-bottom:0;"><strong>Appendicitis</strong>, inflammation of the appendix (often from luminal obstruction by faecoliths or oedema), is a common surgical emergency treated by <strong>appendectomy</strong>.</p>
+  </div>
+  <span class="ref">Slide 16</span>
+
+  <h3 class="sub">The Colon</h3>
+  <p>Four parts — ascending, transverse, descending, sigmoid — arranged in an arch that encircles the small intestine: ascending colon to the right, transverse superior/anterior, descending to the left, sigmoid inferior.<span class="ref">Slide 17</span></p>
+
+  <h4 class="subsub">Ascending Colon</h4>
+  <p>The second part of the large bowel, running up the right side of the abdomen from cecum to the right lobe of the liver, where it bends left at the right colic (hepatic) flexure — a bend lying deep to ribs 9–10 and overlapped by the liver. Narrower than the cecum, it is secondarily retroperitoneal, usually covered by peritoneum on its front and sides (about 25% of people have a short mesentery here). It is separated from the abdominal wall by the greater omentum, with the right paracolic gutter running along its lateral side.<span class="ref">Slides 18–19</span></p>
+  <p><strong>Vasculature:</strong> ileocolic and right colic arteries (from the SMA), which anastomose with the right branch of the middle colic artery to form the marginal (juxtacolic) artery running the length of the colon near its mesenteric border. Venous drainage via ileocolic and right colic veins to the SMV; lymph passes through epicolic and paracolic nodes, then ileocolic and intermediate right colic nodes, to the superior mesenteric nodes.<span class="ref">Slides 20–21</span></p>
+
+  <h4 class="subsub">Transverse Colon</h4>
+  <p>The longest and most mobile part, crossing from the right colic flexure to the left colic flexure (which is typically higher, sharper and less mobile than the right), where it turns down into the descending colon. It lies in front of the lower left kidney and attaches to the diaphragm via the phrenicocolic ligament. Its mesentery, the transverse mesocolon, often loops down below the iliac crests and fuses to the back wall of the omental bursa; the mesocolon's root runs along the inferior pancreatic border. Position is variable — usually hanging to the level of the umbilicus (L3) but sometimes reaching into the pelvis in tall, thin people.<span class="ref">Slides 22–23</span></p>
+  <p><strong>Vasculature:</strong> middle colic artery, plus contributions from the right and left colic arteries, draining via the SMV; lymph to middle colic nodes → superior mesenteric nodes.<span class="ref">Slides 24–25</span></p>
+
+  <h4 class="subsub">Descending Colon</h4>
+  <p>Retroperitoneal, running from the left colic flexure to the left iliac fossa where it becomes the sigmoid colon. Peritoneum covers it anteriorly and laterally, binding it to the posterior wall; about a third of people have a short mesentery here (usually too short to cause volvulus). It passes in front of the lateral border of the left kidney and has its own (left) paracolic gutter laterally.<span class="ref">Slides 26–27</span></p>
+
+  <h4 class="subsub">Sigmoid Colon</h4>
+  <p>An S-shaped loop of variable length linking the descending colon and rectum, extending from the iliac fossa to S3, where it becomes the rectum (marked by the termination of the teniae coli, roughly 15 cm from the anus — the rectosigmoid junction). It runs first medially/superiorly along the external iliac vessels, then medially/inferiorly from the common iliac bifurcation to the front of the sacrum. The left ureter and the left common iliac artery's division lie retroperitoneally behind the root of the sigmoid mesocolon, which has an inverted-V attachment and is usually long.<span class="ref">Slides 28–30</span></p>
+  <p><strong>Vasculature (descending &amp; sigmoid colon):</strong> left colic and sigmoid arteries from the inferior mesenteric artery; venous drainage via the inferior mesenteric vein (usually into the splenic vein, then the portal vein); parasympathetic supply via pelvic splanchnic nerves, sympathetic via lumbar splanchnic nerves; lymph to intermediate colic and inferior mesenteric nodes.<span class="ref">Slide 31</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations</div>
+    <p><strong>Colonic diverticulum:</strong> a pseudodiverticulum — a sac of mucosa and submucosa herniating through the muscular wall without carrying all bowel-wall layers.</p>
+    <p style="margin-bottom:0;"><strong>Sigmoid volvulus:</strong> abnormal twisting of bowel that can obstruct it and cause severe complications; the sigmoid colon is the most common site for a volvulus.</p>
+  </div>
+  <span class="ref">Slide 32</span>
+  <a class="top-link" href="#top">↑ Back to top</a>
+</section>
+
+<section class="topic" id="rectum">
+  <div class="topic-head">
+    <div class="crumb">Unit II · Topic 09</div>
+    <h2>The Rectum</h2>
+    <span class="src">Source deck: “The Rectum” — Slides 1–21</span>
+  </div>
+
+  <p>The rectum is the distal part of the large intestine between the sigmoid colon and the anal canal. Unlike the rest of the colon, it lacks teniae coli. It sits posteriorly in the lesser pelvis, in front of the lower three sacral vertebrae and the coccyx, and behind the bladder (males) or uterus (females). It measures roughly 12 cm long, with a diameter of about 4 cm when full (a transverse slit when empty).<span class="ref">Slide 3</span></p>
+
+  <h3 class="sub">Course</h3>
+  <p>Beginning just below the sigmoid colon, the rectum runs down and back; about 2.5 cm in front of and slightly below the coccyx's tip it turns to run vertically downward, then forward, becoming continuous with the anal canal at the anorectal junction — a level corresponding to the apex of the prostate.<span class="ref">Slide 4</span></p>
+
+  <h3 class="sub">Peritoneal Relations</h3>
+  <p>While the sigmoid colon is intraperitoneal, the rectum becomes retroperitoneal and then subperitoneal as it descends, giving it three peritoneal zones:</p>
+  <ul>
+    <li><strong>Superior third:</strong> peritoneum covers its anterior and lateral surfaces (retroperitoneal).</li>
+    <li><strong>Middle third:</strong> peritoneum covers only the anterior surface.</li>
+    <li><strong>Inferior third:</strong> entirely subperitoneal, with no peritoneal covering at all.<span class="ref">Slides 5–6</span></li>
+  </ul>
+  <p>In males, peritoneum reflects from the rectum onto the posterior bladder wall, forming the floor of the <strong>rectovesical pouch</strong>. In females it reflects onto the posterior vaginal fornix, forming the floor of the <strong>rectouterine pouch</strong>. In both sexes, lateral peritoneal reflections from the superior third form <strong>pararectal fossae</strong>, allowing the rectum room to distend as it fills.<span class="ref">Slides 7–9</span></p>
+
+  <h3 class="sub">Curvatures</h3>
+  <p>The rectum curves in both the anteroposterior and lateral planes.</p>
+  <ul>
+    <li><strong>Sacral curvature:</strong> follows the concavity of the sacrum and coccyx.</li>
+    <li><strong>Perineal curvature:</strong> the forward bend at the anorectal junction, maintained by the puborectal sling of levator ani.<span class="ref">Slide 10</span></li>
+  </ul>
+  <p>Three lateral convexities exist — two to the right, one to the left: an <strong>upper lateral curve</strong> convex right at S3/S4, a <strong>middle lateral curve</strong> (the most prominent) convex left at the sacrococcygeal junction, and a <strong>lower lateral curve</strong> convex right at the coccyx tip.<span class="ref">Slide 11</span></p>
+
+  <h3 class="sub">Anatomical Relations</h3>
+  <table>
+    <caption>Anterior relations of the rectum</caption>
+    <tr><th></th><th>Upper Two-Thirds</th><th>Lower One-Third</th></tr>
+    <tr><td><strong>Male</strong></td><td>Rectovesical pouch; coils of small intestine; sigmoid colon</td><td>Bladder base; terminal ureters; seminal vesicles; ampullae of vas deferens; prostate</td></tr>
+    <tr><td><strong>Female</strong></td><td>Rectouterine pouch</td><td>Rectovaginal fascia (separating it from the vagina)</td></tr>
+  </table>
+  <p class="ref">Slide 12</p>
+  <p>The <strong>rectovesical septum</strong> lies between the bladder fundus and the rectal ampulla, closely tied to the seminal vesicles and prostate. The <strong>rectouterine pouch</strong> separates the vagina from the posterior cervix, while the <strong>rectovaginal fascia</strong>, below this pouch, separates the upper posterior vaginal wall from the rectum.<span class="ref">Slide 13</span></p>
+  <p>Laterally, the upper rectum relates to the pararectal fossae (containing small-intestine coils and sigmoid colon); the lower rectum is closely invested and supported by the levator ani muscles.<span class="ref">Slide 14</span></p>
+
+  <h3 class="sub">Interior of the Rectum</h3>
+  <p>Two kinds of mucosal fold exist. <strong>Temporary folds</strong> are mostly longitudinal, found in the lower rectum, and disappear when the rectum distends with faeces. <strong>Permanent folds (rectal/Houston's valves)</strong> are semilunar transverse folds set against the lateral curvatures' concavities; they persist and become more prominent with distension, helping support faeces and prevent over-distension of the rectal ampulla.<span class="ref">Slide 16</span></p>
+  <p>There are four permanent transverse folds: the <strong>first (upper) fold</strong> near the rectosigmoid junction; the <strong>second fold</strong>, about 2.5 cm below, projecting from the left wall at the upper lateral curve; the <strong>third valve</strong>, the largest, projecting from the anterior/right wall at the middle lateral curve near the top of the ampulla; and the <strong>fourth valve</strong>, about 2.5 cm below the third, projecting from the left wall at the lower lateral curve.<span class="ref">Slide 17</span></p>
+
+  <h3 class="sub">Supports of the Rectum</h3>
+  <p>The rectum is held in place and kept from prolapsing by the pelvic diaphragm (levator ani), the fascia of Waldeyer, the lateral rectal ligaments, the rectovesical (Denonvilliers') fascia, reflections of pelvic fascia from parietal to visceral layers, pelvirectal and ischiorectal fat, the pelvic peritoneum with its vascular pedicles, and the perineal body.<span class="ref">Slide 18</span></p>
+
+  <h3 class="sub">Neurovasculature</h3>
+  <p><strong>Arteries:</strong> superior rectal, middle rectal, inferior rectal, and median sacral arteries. <strong>Veins:</strong> superior, middle and inferior rectal veins.<span class="ref">Slide 19</span></p>
+  <p><strong>Lymphatics:</strong> the upper half drains with the superior rectal vessels to inferior mesenteric and pararectal nodes; the lower half drains with the middle rectal vessels to internal iliac nodes. <strong>Innervation:</strong> sympathetic fibres from L1–L2, parasympathetic fibres from S2–S4, carried via splanchnic nerves.<span class="ref">Slide 20</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations</div>
+    <ul style="margin-bottom:0;">
+      <li><strong>Inflammatory bowel/Crohn's disease:</strong> inflammation of the rectal wall.</li>
+      <li><strong>Rectocele:</strong> herniation of the rectum into the posterior vaginal wall, from a weakened rectovaginal septum (often post-childbirth); presents with vaginal bulge, constipation and difficulty defecating.</li>
+      <li><strong>Haemorrhoids:</strong> dilatation of the rectal venous plexuses, causing bleeding and discomfort.</li>
+      <li><strong>Rectal prolapse:</strong> protrusion of rectal mucosa or the full wall through the anus, from chronic straining or pelvic-floor weakness (especially in elderly patients or after childbirth); presents with a visible bulge and faecal incontinence.</li>
+    </ul>
+  </div>
+  <span class="ref">Slide 21</span>
+  <a class="top-link" href="#top">↑ Back to top</a>
+</section>
+
+<section class="topic" id="kidney">
+  <div class="topic-head">
+    <div class="crumb">Unit II · Topic 10</div>
+    <h2>Kidney, Ureter &amp; Suprarenal Gland</h2>
+    <span class="src">Source deck: “The Upper Urinary Organs” — Slides 1–41</span>
+  </div>
+
+  <h3 class="sub">The Kidneys</h3>
+  <p>Bean-shaped, reddish-brown organs on the posterior abdominal wall, behind the peritoneum. On average, roughly 11 cm long, 6 cm wide and 3 cm thick, weighing about 150 g in males and 135 g in females.<span class="ref">Slide 3</span></p>
+  <p><strong>External features:</strong> a fibrous capsule; the renal pelvis (a funnel-shaped structure collecting urine and continuing as the ureter); and the renal hilum, a concave medial gap where the renal artery, vein and ureter connect.<span class="ref">Slide 4</span></p>
+  <p><strong>Positional differences:</strong> the left kidney sits closer to the midline than the right and is angled more obliquely, so the upper poles lie closer together than the lower poles. The upper poles sits roughly 2.5 cm from the midline, the hila about 5 cm, and the lower poles about 7.5 cm.<span class="ref">Slide 5</span></p>
+
+  <h4 class="subsub">External Morphology</h4>
+  <p>Two poles (superior, inferior), two borders (lateral, medial), two surfaces (anterior, posterior). The superior pole is thick and rounded and sits nearer the midline than the pointed inferior pole; the anterior surface is convex and faces anterolaterally, while the posterior surface is flat and faces posteromedially.<span class="ref">Slides 6–7</span></p>
+  <p>The <strong>medial border</strong> is convex near each pole and concave in the middle, sloping down and laterally with a vertical slit — the hilum — at its centre. The <strong>lateral border</strong> is simply convex.<span class="ref">Slide 8</span></p>
+  <p>The hilum has anterior and posterior lips and transmits the renal vein, renal artery, renal pelvis, and a subsidiary branch of the renal artery.<span class="ref">Slide 9</span></p>
+
+  <h4 class="subsub">Relations of the Kidneys</h4>
+  <div class="grid2">
+    <div class="card">
+      <h4>Right kidney — anterior</h4>
+      <p style="margin:0;">Right suprarenal gland; right lobe of liver; second part of duodenum; hepatic (right colic) flexure; jejunum.</p>
+    </div>
+    <div class="card">
+      <h4>Left kidney — anterior</h4>
+      <p style="margin:0;">Left suprarenal gland; spleen; stomach; pancreas and splenic vessels; left colic flexure; jejunum.</p>
+    </div>
+  </div>
+  <p>Posteriorly, both kidneys relate to four muscles and three nerves, plus one rib (right) or two ribs (left).<span class="ref">Slides 11–13</span></p>
+
+  <h4 class="subsub">Capsules of the Kidney</h4>
+  <p>From innermost to outermost: the <strong>fibrous capsule</strong> (a thin membrane closely investing the kidney); <strong>perirenal fat</strong> (adipose tissue around the fibrous capsule); <strong>renal fascia</strong> (a false capsule surrounding the kidney and perirenal fat); and <strong>pararenal fat</strong> (fat outside the renal fascia, cushioning the kidney).<span class="ref">Slides 14–15</span></p>
+
+  <h4 class="subsub">Internal Structure</h4>
+  <p>The <strong>kidney proper</strong> has an outer cortex (just beneath the fibrous capsule) and an inner medulla made of 5–11 dark, cone-shaped renal pyramids, each tipped by a nipple-like renal papilla projecting into a minor calyx.<span class="ref">Slide 17</span></p>
+  <p>The <strong>renal sinus</strong> is a substantial internal cavity opening at the hilum, its wall studded with renal papillae, and containing the minor and major calyces, renal pelvis, renal vessels, lymphatics, nerves and fat.<span class="ref">Slide 18</span></p>
+  <p>The <strong>renal pelvis</strong>, a funnel-shaped continuation of the ureter, collects urine and passes it onward; it splits into three major calyces, which further divide into 5–11 minor calyces, each moulded around a renal papilla.<span class="ref">Slide 19</span></p>
+
+  <h4 class="subsub">Neurovasculature</h4>
+  <p>Renal arteries supply the kidney via segmental → lobar → interlobar → arcuate arteries. Venous drainage is via the left and right renal veins, which leave the hilum anterior to the arteries and empty directly into the IVC. Lymph drains to para-caval and para-aortic nodes. Sympathetic fibres arise from T10–L1; parasympathetic fibres come from the vagus.<span class="ref">Slide 20</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations — Kidney</div>
+    <ul style="margin-bottom:0;">
+      <li><strong>Renal calculi (kidney stones):</strong> solid mineral/salt concretions forming in the kidney.</li>
+      <li><strong>Horseshoe kidney:</strong> a congenital fusion of the lower poles into a U-shape across the midline.</li>
+      <li><strong>Renal infarction:</strong> wedge-shaped pale areas of ischaemic necrosis, from embolism or thrombosis of renal artery branches.</li>
+      <li><strong>Chronic pyelonephritis:</strong> small, shrunken, irregularly scarred kidneys with blunted calyces and thinned cortex, linked to recurrent UTIs, especially with vesicoureteral reflux in children.</li>
+      <li><strong>Hydronephrosis:</strong> dilated renal pelvis and calyces from outflow obstruction (stones, tumours, congenital narrowing), with a swollen, thin-walled kidney.</li>
+      <li><strong>Polycystic kidney disease:</strong> massively enlarged kidneys studded with fluid-filled cysts, risking hypertension, haematuria and renal failure.</li>
+    </ul>
+  </div>
+  <span class="ref">Slide 21</span>
+
+  <h3 class="sub">The Ureter</h3>
+  <p>A narrow, thick-walled, expansile muscular tube conveying urine from kidney to bladder by peristalsis, about 25 cm long and 3 mm in diameter, divided into the renal pelvis, an abdominal part, and a pelvic part.<span class="ref">Slide 23</span></p>
+  <p>The <strong>renal pelvis</strong> is funnel-shaped, sitting at the renal hilum: its broader superior end continues from the major calyces, and its narrower inferior end gives rise to the ureter at the ureteropelvic junction.<span class="ref">Slide 24</span></p>
+  <p>The <strong>abdominal part</strong> runs down and slightly medially over psoas major, which separates it from the transverse processes of the lumbar vertebrae.<span class="ref">Slide 25</span></p>
+
+  <table>
+    <caption>Abdominal ureter — relations</caption>
+    <tr><th></th><th>Anterior</th><th>Posterior</th></tr>
+    <tr><td><strong>Left ureter</strong></td><td>Left colic vessels; sigmoid vessels; left testicular/ovarian vessels; sigmoid mesocolon</td><td>Left psoas major; bifurcation of left common iliac artery</td></tr>
+    <tr><td><strong>Right ureter</strong></td><td>2nd part of duodenum; right colic vessels; right testicular/ovarian vessels; root of mesentery</td><td>Right psoas major; bifurcation of right common iliac artery</td></tr>
+  </table>
+  <p class="ref">Slide 26</p>
+
+  <p>The <strong>pelvic part</strong> enters the pelvis by crossing in front of the common iliac artery bifurcation at the pelvic brim, near the sacroiliac joint; it runs down, back and laterally along the greater sciatic notch's anterior margin before turning forward and medially to reach the bladder base, entering the bladder wall obliquely.<span class="ref">Slide 27</span></p>
+  <p>The ureter has <strong>three physiological constrictions</strong>: at the pelviureteric junction, at the pelvic brim (crossing the common iliac artery), and at the ureterovesical junction.<span class="ref">Slide 28</span></p>
+  <p><strong>Arterial supply</strong> comes, from above downward, via the renal, testicular/ovarian, direct aortic branches, internal iliac, superior/inferior vesical, middle rectal and uterine arteries.<span class="ref">Slide 29</span></p>
+  <p><strong>Lymphatics</strong> drain to the lateral aortic and iliac nodes. <strong>Innervation:</strong> sympathetic from T12–L1 via renal, aortic and hypogastric plexuses; parasympathetic from S2–S4 via pelvic splanchnic nerves.<span class="ref">Slide 30</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations — Ureter</div>
+    <p><strong>Ureteric colic:</strong> sudden, severe pain from ureteric obstruction, most often a kidney stone.</p>
+    <p style="margin-bottom:0;"><strong>Vesicoureteral reflux (VUR):</strong> backward flow of urine from bladder into ureter (and sometimes kidney), typically a paediatric, often congenital, condition arising from a defective one-way valve mechanism at the oblique ureterovesical junction.</p>
+  </div>
+  <span class="ref">Slide 31</span>
+
+  <h3 class="sub">Suprarenal (Adrenal) Glands</h3>
+  <p>Endocrine glands capping the upper pole of each kidney, each with an outer cortex and central medulla; dimensions approximately 50 mm × 30 mm × 10 mm, weighing about 5 g.<span class="ref">Slides 32–33</span></p>
+  <table>
+    <caption>Relations of the suprarenal glands</caption>
+    <tr><th></th><th>Anterior</th><th>Posterior</th><th>Medial border</th></tr>
+    <tr><td><strong>Right gland</strong></td><td>IVC; right liver lobe</td><td>Right kidney; right crus of diaphragm</td><td>Right coeliac ganglion; right inferior phrenic artery</td></tr>
+    <tr><td><strong>Left gland</strong></td><td>Stomach; splenic artery</td><td>Left kidney; left crus of diaphragm</td><td>Left coeliac ganglion; left inferior phrenic artery; left gastric vessels</td></tr>
+  </table>
+  <p class="ref">Slides 34–35</p>
+  <p><strong>Venous drainage:</strong> the right suprarenal vein drains directly into the IVC, while the left drains into the left renal vein. Lymph drains to lateral aortic nodes.<span class="ref">Slide 37</span></p>
+  <p><strong>Innervation:</strong> preganglionic sympathetic fibres (T10–L1) supply chromaffin cells of the medulla directly — these cells behave as the functional equivalent of postganglionic sympathetic neurons.<span class="ref">Slide 38</span></p>
+  <p>The <strong>cortex</strong> secretes steroid hormones governing electrolyte and water balance, blood sugar, liver/muscle glycogen stores, and inflammatory responses. The <strong>medulla</strong>'s chromaffin cells secrete adrenaline and noradrenaline (catecholamines), mirroring the output of postganglionic sympathetic fibres.<span class="ref">Slides 39–40</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations — Suprarenal Gland</div>
+    <p style="margin-bottom:0;"><strong>Cushing syndrome:</strong> excess cortisol causing central obesity, moon face and hypertension, often from an adrenal tumour or prolonged steroid use. <strong>Adrenalectomy:</strong> surgical removal of one or both glands, used for adrenal tumours, Cushing syndrome or phaeochromocytoma.</p>
+  </div>
+  <span class="ref">Slide 41</span>
+  <a class="top-link" href="#top">↑ Back to top</a>
+</section>
+
+<section class="topic" id="bladder">
+  <div class="topic-head">
+    <div class="crumb">Unit II · Topic 11</div>
+    <h2>Urinary Bladder &amp; Urethra</h2>
+    <span class="src">Source deck: “Urinary Bladder &amp; Urethra” — Slides 1–24</span>
+  </div>
+
+  <p>The urinary bladder is a hollow, muscular, distensible reservoir in the anterior pelvis. Empty, it sits behind the pubic symphysis within the true pelvis; filled, it can rise into the abdominal cavity above the pubic symphysis.<span class="ref">Slide 2</span></p>
+  <p>Its shape varies with volume — tetrahedral when empty, ovoid when distended. Adult capacity ranges roughly 120–320 mL; urine beyond about 220 mL triggers the urge to void, though the bladder is usually emptied around 250–300 mL.<span class="ref">Slide 3</span></p>
+
+  <h3 class="sub">Relations</h3>
+  <table>
+    <tr><th></th><th>Male</th><th>Female</th></tr>
+    <tr><td><strong>Anterior</strong></td><td>Pubic symphysis; retropubic (Retzius) space</td><td>Pubic symphysis; retropubic space</td></tr>
+    <tr><td><strong>Posterior</strong></td><td>Rectovesical pouch; seminal vesicles; vas deferens; rectum</td><td>Uterovesical pouch; uterus; upper vagina</td></tr>
+    <tr><td><strong>Inferior</strong></td><td>Prostate gland</td><td>Urogenital diaphragm; anterior vaginal wall</td></tr>
+    <tr><td><strong>Superior</strong></td><td>Peritoneum; small intestine when full</td><td>Peritoneum; uterus</td></tr>
+  </table>
+  <p class="ref">Slides 4–5</p>
+
+  <h3 class="sub">External Features</h3>
+  <p>Apex, base, neck, three surfaces (superior + two inferolateral) and four borders (anterior, posterior, two lateral).<span class="ref">Slide 6</span></p>
+  <p>The <strong>apex</strong> anchors the median umbilical ligament (the fibrous remnant of the urachus) and sits behind the top of the pubic symphysis. The <strong>neck</strong>, the lowest, most fixed part, is where the inferolateral and posterior surfaces meet and is pierced by the urethra — resting on the prostate in males, related to the urogenital diaphragm in females.<span class="ref">Slide 7</span></p>
+  <p>The <strong>base</strong>'s upper part is separated from the rectum by the rectovesical pouch (containing small-bowel coils); its lower part is separated from the rectum by the terminal vas deferens and seminal vesicles (vas deferens lying medial to the vesicles), with the triangular zone between the two vasa separated from the rectum by the rectovesical (Denonvilliers') fascia. In females, the base is separated from the uterine cervix by the vesicouterine pouch.<span class="ref">Slide 8</span></p>
+  <p>The <strong>superior surface</strong> is triangular, bounded by lateral borders running from the ureteric orifices back to the apex. The <strong>inferolateral surfaces</strong> slope down, forward and medially to meet anteriorly in the midline.<span class="ref">Slide 9</span></p>
+
+  <h4 class="subsub">Trigone of the Bladder</h4>
+  <p>A smooth triangular zone on the posterior wall, bounded by the two ureteric orifices (posterolaterally) and the internal urethral orifice (inferiorly); its mucosa is smooth and firmly bound to the underlying muscle. In males, the uvula vesicae — a slight elevation behind the internal urethral orifice — reflects the underlying median lobe of the prostate.<span class="ref">Slide 10</span></p>
+  <p>Trigone landmarks: the anteroinferior angle (internal urethral orifice); two posterosuperior angles (ureteric openings); the uvula vesicae; the interureteric ridge (bar of Mercier), connecting the two ureteric orifices along the trigone's superior boundary; and two uretero-urethral ridges (Bell's bars) running from each ureteric orifice toward the urethral orifice, produced by longitudinal ureteric fibres extending down toward the prostate's middle lobe.<span class="ref">Slide 11</span></p>
+
+  <h4 class="subsub">Support of the Bladder</h4>
+  <p>Fixation is aided by the lateral, medial and lateral puboprostatic ligaments and the median umbilical ligament, plus posterior ligamentous support; the bladder neck is firmly anchored by its continuity with the prostate and urethra.<span class="ref">Slide 12</span></p>
+
+  <h4 class="subsub">Neurovasculature</h4>
+  <p><strong>Arteries:</strong> mainly branches of the internal iliac artery — superior vesical arteries (from the umbilical artery), the inferior vesical artery (males), and the vaginal artery (females). <strong>Venous drainage:</strong> a vesical venous plexus draining to the internal iliac veins. <strong>Lymphatics:</strong> external and internal iliac nodes. <strong>Nerves:</strong> sympathetic fibres (T11–L2) via the hypogastric plexus; parasympathetic fibres (S2–S4) via pelvic splanchnic nerves.<span class="ref">Slide 13</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations — Bladder</div>
+    <p><strong>Cystitis:</strong> bladder inflammation, usually infective, more common in females owing to their shorter urethra.</p>
+    <p style="margin-bottom:0;"><strong>Trabeculated bladder:</strong> chronic outflow obstruction (e.g. enlarged prostate, urethral stricture) causes the bladder to distend and its muscle bundles to hypertrophy and interlace, producing an open-weave "trabeculated" wall appearance.</p>
+  </div>
+  <span class="ref">Slide 14</span>
+
+  <h3 class="sub">The Male Urethra</h3>
+  <p>Conveys urine and, during ejaculation, semen; about 18–20 cm long, running from the internal urethral orifice at the bladder neck to the external urethral orifice at the glans tip. Flaccid, it is S-shaped (two curves); erect, the distal curve straightens out, giving a J-shape. It has four parts.<span class="ref">Slide 16</span></p>
+
+  <table>
+    <caption>Parts of the male urethra</caption>
+    <tr><th>Part</th><th>Length</th><th>Key Features</th></tr>
+    <tr><td>Preprostatic (intramural)</td><td>0.5–1.5 cm</td><td>Surrounded by the involuntary internal urethral sphincter, which prevents retrograde ejaculation</td></tr>
+    <tr><td>Prostatic</td><td>3–4 cm</td><td>Widest, most dilatable part; posterior wall bears the urethral crest, seminal colliculus, prostatic utricle, ejaculatory-duct openings, and numerous prostatic duct openings</td></tr>
+    <tr><td>Membranous</td><td>1–1.5 cm</td><td>Shortest, narrowest part; passes through the external urethral sphincter and deep perineal pouch, just below the prostatic apex and behind the pubic symphysis</td></tr>
+    <tr><td>Spongy (penile)</td><td>15–16 cm</td><td>Runs through the corpus spongiosum; subdivided into the bulbar part (receives bulbourethral/Cowper's gland ducts), the penile shaft part, and the distal navicular fossa within the glans; ends at a slit-like external orifice</td></tr>
+  </table>
+  <p class="ref">Slides 17–20</p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations — Male Urethra</div>
+    <ul style="margin-bottom:0;">
+      <li><strong>Hypospadias:</strong> urethral opening on the underside (ventral) of the penis; <strong>epispadias:</strong> opening on the dorsal side.</li>
+      <li><strong>Urethral stricture:</strong> narrowing (often in the bulbar urethra) from trauma, infection or inflammation, causing difficulty urinating, weak stream, and retention.</li>
+      <li><strong>Urethritis:</strong> inflammation, usually from a sexually transmitted infection, with burning on urination and discharge.</li>
+    </ul>
+  </div>
+  <span class="ref">Slide 21</span>
+
+  <h3 class="sub">The Female Urethra</h3>
+  <p>Conducts urine to the exterior; about 4 cm long — much shorter than the male urethra — embedded in the anterior vaginal wall, running from the internal to the external urethral orifice (the latter lying between the clitoris and vaginal orifice). It passes down and forward from the bladder neck, pierces the urogenital diaphragm, and lies anterior to the vagina throughout its course.<span class="ref">Slide 22</span></p>
+  <p>In cross-section its shape changes along its length: crescentic (convexity forward) proximally, star-shaped in the middle, a transverse slit distally, and a sagittal slit at the external orifice.<span class="ref">Slide 23</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations — Female Urethra</div>
+    <p style="margin-bottom:0;">UTIs are markedly more common in females because of the short urethra and its orifice's proximity to the vaginal and anal openings; regular hygiene is advised. Urinary incontinence is also more common, since the external urethral sphincter is a delicate structure that can be further weakened by childbirth.</p>
+  </div>
+  <span class="ref">Slide 23</span>
+
+  <h4 class="subsub">Urethral Neurovasculature</h4>
+  <p><strong>Male:</strong> supplied by the inferior vesical, internal pudendal and dorsal penile arteries. <strong>Female:</strong> supplied by the internal pudendal, vaginal and inferior vesical arteries. <strong>Venous drainage:</strong> prostatic venous plexus (males) or vesical/vaginal venous plexuses (females). <strong>Lymphatics:</strong> internal iliac and inguinal nodes. <strong>Nerves:</strong> autonomic fibres via the inferior hypogastric plexus — sympathetic fibres control the internal sphincter and assist ejaculation, parasympathetic fibres relax urethral smooth muscle during voiding — plus somatic innervation of the external sphincter via the pudendal nerve (S2–S4).<span class="ref">Slide 24</span></p>
+  <a class="top-link" href="#top">↑ Back to top</a>
+</section>
+
+<section class="topic" id="male">
+  <div class="topic-head">
+    <div class="crumb">Unit II · Topic 12</div>
+    <h2>Male Genital Organs</h2>
+    <span class="src">Source deck: “Male Genital Organ” — Slides 1–13</span>
+  </div>
+
+  <h3 class="sub">Prostate</h3>
+  <p>A pyramidal, fibromuscular glandular organ surrounding the prostatic urethra, secreting acid phosphatase, fibrinolysin, citric acid, amylase, prostate-specific antigen (PSA) and prostaglandins — secretions that form the bulk of seminal fluid. It sits in the lesser pelvis below the bladder neck and above the urogenital diaphragm, behind the lower pubic symphysis and in front of the rectal ampulla, flanked on each side by levator ani. Shaped like an inverted cone (or a chestnut), it weighs about 3 g, with a base width of 4 cm, length 3 cm and thickness 2 cm.<span class="ref">Slide 2</span></p>
+
+  <h4 class="subsub">Zones and Lobes</h4>
+  <table>
+    <caption>Prostatic zones</caption>
+    <tr><th>Zone</th><th>Notes</th></tr>
+    <tr><td>Peripheral</td><td>Largest zone, surrounds the distal urethra; the most common site of prostate cancer</td></tr>
+    <tr><td>Central</td><td>Surrounds the ejaculatory ducts</td></tr>
+    <tr><td>Transitional</td><td>Surrounds the proximal prostatic urethra; the site of benign prostatic hyperplasia (BPH)</td></tr>
+    <tr><td>Anterior fibromuscular stroma</td><td>Non-glandular smooth muscle and fibrous tissue</td></tr>
+  </table>
+  <p>Lobar description: anterior (fibromuscular) lobe; right and left lateral lobes (bulk of the gland); median (middle) lobe (between the ejaculatory ducts and urethra); posterior lobe (behind the urethra, below the ejaculatory ducts).<span class="ref">Slide 3</span></p>
+
+  <h4 class="subsub">Capsule and Internal Anatomy</h4>
+  <p>A dense fibromuscular <strong>true capsule</strong> directly invests the gland; a <strong>false capsule (prostatic sheath)</strong>, from the visceral pelvic fascia, lies outside it, with the prostatic venous plexus sandwiched between the two. The prostatic urethra runs vertically through the gland, its posterior wall bearing the urethral crest, the seminal colliculus (a central elevation with the ejaculatory duct openings), and prostatic sinuses where the prostatic ducts open.<span class="ref">Slide 4</span></p>
+  <p>Roughly 20–30 prostatic ducts empty into the prostatic urethra, secreting a milky, mildly alkaline fluid rich in citric acid, zinc and enzymes such as PSA — contributing about 30% of semen volume.<span class="ref">Slide 5</span></p>
+  <p><strong>Surfaces:</strong> anterior (narrow, behind the pubic symphysis); posterior (flat, related to the rectum); inferolateral (resting on levator ani).<span class="ref">Slide 5</span></p>
+  <p><strong>Neurovasculature:</strong> arterial supply from branches of the inferior vesical, middle rectal and internal pudendal arteries; venous drainage via the prostatic venous plexus; lymphatics to internal iliac, external iliac and sacral nodes; sympathetic supply via the superior hypogastric plexus, parasympathetic via pelvic splanchnic nerves.<span class="ref">Slide 6</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations — Prostate</div>
+    <p><strong>Benign prostatic hyperplasia (BPH):</strong> after age 50, hypertrophy of the median lobe forms an adenoma that compresses the prostatic urethra and obstructs urine flow.</p>
+    <p style="margin-bottom:0;"><strong>Prostatic carcinoma:</strong> usually occurs after age 50, most often in the outer (peripheral) zone, typically involving the posterior lobe.</p>
+  </div>
+  <span class="ref">Slide 7</span>
+
+  <h3 class="sub">Vas Deferens (Ductus Deferens)</h3>
+  <p>A paired, thick-walled muscular tube carrying spermatozoa from the epididymis to the ejaculatory duct — about 45 cm long, narrow-lumened except for its terminal, sacculated segment, the ampulla.<span class="ref">Slide 8</span></p>
+  <p><strong>External course:</strong> begins at the testis's inferior pole as a continuation of the epididymal duct, ascends behind the testis and medial to the epididymis, enters the spermatic cord (lying in its posterior part — the usual site for vasectomy), passes through the inguinal canal, and enters the abdomen through the deep inguinal ring lateral to the inferior epigastric artery.<span class="ref">Slide 9</span></p>
+  <p><strong>Internal course:</strong> loops around the inferior epigastric artery into the lesser pelvis, descends along the lateral pelvic wall crossing the obliterated umbilical artery and the obturator nerve/vessels, crosses above and medial to the ureter, bends down and medially behind the bladder and medial to the seminal vesicle, enlarges into the ampulla near the bladder base, and finally joins the seminal vesicle duct to form the ejaculatory duct just behind the bladder neck.<span class="ref">Slide 10</span></p>
+  <p><strong>Arteries:</strong> branches to the vas deferens from the superior vesical, inferior vesical and middle rectal arteries. <strong>Venous drainage:</strong> vesical venous plexus. <strong>Nerves:</strong> pelvic splanchnic nerves. <strong>Lymphatics:</strong> external, internal and common iliac nodes.<span class="ref">Slide 11</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Note — Vasectomy</div>
+    <p style="margin-bottom:0;">A common method of male sterilisation; ejaculate becomes sperm-free roughly a week afterward, preventing pregnancy, while ongoing sperm production is absorbed within the epididymis.</p>
+  </div>
+  <span class="ref">Slide 11</span>
+
+  <h3 class="sub">Seminal Vesicles</h3>
+  <p>Paired coiled, sacculated tubes about 5 cm long (unravelling to roughly three times that length), lying extraperitoneally at the bladder base, lateral to the terminal vas deferens and in front of the rectum. Each vesicle's narrow lower end (its duct) joins the ductus deferens to form the ejaculatory duct. Their secretion is mildly alkaline, rich in fructose, choline and vesiculose.<span class="ref">Slide 12</span></p>
+  <p><strong>Vasculature:</strong> inferior vesical and middle rectal arteries and veins.<span class="ref">Slide 12</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Note — Seminal Vesicle Secretion</div>
+    <p style="margin-bottom:0;">Fructose, unique to seminal vesicle secretion elsewhere in the body, offers forensic evidence of seminal fluid presence, though choline crystals (the Florence test) are the preferred forensic marker.</p>
+  </div>
+  <span class="ref">Slide 12</span>
+
+  <h3 class="sub">Ejaculatory Ducts</h3>
+  <p>Paired ducts, one either side of the midline at the lower bladder base, roughly 1–2 cm long, formed by the union of the seminal vesicle duct and the ampulla of the vas deferens. They pierce the posterior half of the prostate and open into the prostatic urethra at the seminal colliculus (verumontanum).<span class="ref">Slide 13</span></p>
+  <p><strong>Vasculature:</strong> arteries usually branch from the superior vesical arteries; veins join the prostatic and vesical venous plexuses.<span class="ref">Slide 13</span></p>
+  <a class="top-link" href="#top">↑ Back to top</a>
+</section>
+
+<section class="topic" id="female">
+  <div class="topic-head">
+    <div class="crumb">Unit II · Topic 13</div>
+    <h2>The Female Pelvis</h2>
+    <span class="src">Source deck: “Female Pelvis” — Slides 1–28</span>
+  </div>
+
+  <p>This topic covers the female urethra and the female internal genital organs — ovaries, uterine tubes, uterus, vagina — plus the vulva.<span class="ref">Slide 2</span></p>
+
+  <h3 class="sub">Female Urethra</h3>
+  <p>Roughly 4 cm long and 6 mm in diameter, it runs anteroinferiorly from the internal urethral orifice, behind and then below the pubic symphysis, to the external urethral orifice. It lies in front of the vagina, raising a ridge in the anterior vaginal wall, and passes with the vagina through the pelvic diaphragm, external urethral sphincter, and perineal membrane. Urethral glands cluster especially in its upper part; one paired group, the paraurethral (Skene's) glands, are the female homolog of the prostate.<span class="ref">Slide 2</span></p>
+  <p><strong>Vasculature:</strong> internal pudendal and vaginal arteries, with correspondingly named veins. <strong>Innervation:</strong> from the vesical plexus and the pudendal nerve.<span class="ref">Slide 3</span></p>
+
+  <h3 class="sub">Ovaries</h3>
+  <p>Almond-shaped and -sized female gonads where oocytes develop; also endocrine organs producing reproductive hormones. Each ovary hangs from a short peritoneal fold, the mesovarium, with its vessels, lymphatics and nerves crossing the pelvic brim within a peritoneal fold to reach its superolateral aspect.<span class="ref">Slide 4</span></p>
+
+  <h3 class="sub">Uterine Tubes</h3>
+  <p>Roughly 10 cm long, carrying the monthly-released oocyte from the periovarian peritoneal cavity to the uterine cavity, and serving as the usual site of fertilisation. They lie in a narrow mesentery, the mesosalpinx, which forms the free upper edge of the broad ligament.<span class="ref">Slide 5</span></p>
+  <table>
+    <caption>Four parts of the uterine tube (lateral to medial)</caption>
+    <tr><th>Part</th><th>Description</th></tr>
+    <tr><td>Infundibulum</td><td>Funnel-shaped distal end opening into the peritoneal cavity via the abdominal ostium; fringed by finger-like fimbriae draping over the ovary, one large ovarian fimbria attaching to the ovary's superior pole</td></tr>
+    <tr><td>Ampulla</td><td>Widest, longest part, beginning medial to the infundibulum; the usual site of fertilisation</td></tr>
+    <tr><td>Isthmus</td><td>Thick-walled part entering the uterine horn</td></tr>
+    <tr><td>Uterine part</td><td>Short intramural segment passing through the uterine wall, opening via the uterine ostium into the uterine cavity</td></tr>
+  </table>
+  <p class="ref">Slides 5–6</p>
+  <p><strong>Vasculature:</strong> ovarian arteries (from the abdominal aorta) descend the posterior abdominal wall, cross the external iliac vessels at the pelvic brim and enter the suspensory ligaments; ascending branches of the uterine arteries (from the internal iliac arteries) approach the ovaries and tubes medially. Both sets of arteries terminate by splitting into ovarian and tubal branches. Venous drainage forms a pampiniform plexus near the ovary and tube, usually merging into a single ovarian vein. Innervation derives partly from the ovarian plexus (descending with the ovarian vessels) and partly from the uterine (pelvic) plexus.<span class="ref">Slides 7–9</span></p>
+
+  <h3 class="sub">Uterus</h3>
+  <p>A thick-walled, pear-shaped, hollow muscular organ where the embryo/fetus develops; its muscular wall stretches to accommodate growth and later powers expulsion during childbirth. The non-pregnant uterus normally lies in the lesser pelvis, its body resting on the bladder and its cervix between the bladder and rectum.<span class="ref">Slide 10</span></p>
+  <p>It divides into a <strong>body</strong> (upper two-thirds, including the fundus above the tubal openings, freely movable between the layers of the broad ligament, with vesical and intestinal surfaces) and a <strong>cervix</strong> (the narrower, cylindrical lower third, about 2.5 cm long, itself split into a supravaginal part and a vaginal part that projects into the vagina). The isthmus demarcates body from cervix.<span class="ref">Slide 11</span></p>
+
+  <h4 class="subsub">Uterine Wall Layers</h4>
+  <ul>
+    <li><strong>Perimetrium</strong> — outer serosal coat (peritoneum plus a thin connective-tissue layer)</li>
+    <li><strong>Myometrium</strong> — middle smooth-muscle coat, which stretches dramatically in pregnancy</li>
+    <li><strong>Endometrium</strong> — inner mucosal coat, firmly bonded to the myometrium, changing structure through the menstrual cycle</li>
+  </ul>
+  <p class="ref">Slide 12</p>
+
+  <p><strong>Relations:</strong> anteriorly, the vesicouterine pouch and bladder's superior surface; posteriorly, the rectouterine pouch (containing small-bowel loops) and the front of the rectum; laterally, the peritoneal broad ligament and, lower down beside the cervix and vagina, the fascial cardinal ligaments.<span class="ref">Slide 13</span></p>
+  <p><strong>Vasculature:</strong> mainly the uterine arteries, with collateral supply from the ovarian arteries; venous drainage via uterine veins entering the broad ligaments to form a uterine venous plexus beside the cervix.<span class="ref">Slide 13</span></p>
+
+  <h3 class="sub">Vagina</h3>
+  <p>A distensible musculomembranous tube, 7–9 cm long, running from the mid-cervix to the vaginal orifice; its upper end surrounds the cervix. Functions: conducting menstrual flow; forming the lower birth canal; receiving the penis and ejaculate during intercourse; and communicating with the cervical canal above and the vestibule below.<span class="ref">Slide 14</span></p>
+  <p>Usually collapsed with its lateral walls touching along an anteroposterior slit, the vagina lies behind the bladder and urethra (the urethra projecting into its lower anterior wall) and in front of the rectum, passing between the medial margins of the puborectalis part of levator ani. Four muscles compress it as sphincters: pubovaginalis, external urethral sphincter, urethrovaginal sphincter, and bulbospongiosus.<span class="ref">Slide 15</span></p>
+  <p><strong>Relations:</strong> anteriorly, the bladder fundus and urethra; laterally, levator ani, visceral pelvic fascia and the ureters; posteriorly (inferior to superior), the anal canal, rectum and rectouterine pouch.<span class="ref">Slide 16</span></p>
+  <p><strong>Vasculature:</strong> the upper vagina is supplied by the uterine arteries; the middle and lower vagina by the vaginal and internal pudendal arteries. Venous plexuses along the vaginal walls and mucosa merge with the uterine plexus as the uterovaginal plexus, draining to the internal iliac veins via the uterine vein.<span class="ref">Slides 16–17</span></p>
+  <p><strong>Innervation:</strong> only the lowest fifth to quarter of the vagina is somatically innervated, via the deep perineal nerve (a pudendal branch) carrying sympathetic and visceral afferent — but no parasympathetic — fibres. The remaining upper three-quarters to four-fifths is visceral in innervation, supplied (along with the uterus) by the uterovaginal nerve plexus.<span class="ref">Slide 17</span></p>
+
+  <h3 class="sub">The Vulva</h3>
+  <p>The collective term for the external female genitalia, serving three roles: sensory tissue during intercourse, directing urine flow during micturition, and protecting the internal reproductive tract from infection.<span class="ref">Slide 18</span></p>
+  <table>
+    <caption>Structures of the vulva</caption>
+    <tr><th>Structure</th><th>Description</th></tr>
+    <tr><td>Mons pubis</td><td>Subcutaneous fat pad anterior to the pubic symphysis</td></tr>
+    <tr><td>Labia majora</td><td>Paired hair-bearing skin folds from the mons to the posterior commissure; derived embryologically from the labioscrotal swellings</td></tr>
+    <tr><td>Labia minora</td><td>Paired hairless folds inside the labia majora, fusing anteriorly to form the clitoral hood and posteriorly to form the fourchette; derived from the urethral folds</td></tr>
+    <tr><td>Vestibule</td><td>Area enclosed by the labia minora, containing the vaginal and urethral openings</td></tr>
+    <tr><td>Bartholin's glands</td><td>Paired glands beside the vaginal orifice secreting lubricating mucus during arousal</td></tr>
+    <tr><td>Clitoris</td><td>Erectile corpora cavernosa tissue under the clitoral hood, engorging during arousal; derived from the genital tubercle</td></tr>
+  </table>
+  <p class="ref">Slides 18–19</p>
+  <p><strong>Vasculature:</strong> paired internal pudendal (from the internal iliac artery) and external pudendal (from the femoral artery) arteries; venous drainage via pudendal veins with labial tributaries; lymph drains to the superficial inguinal nodes.<span class="ref">Slide 22</span></p>
+  <p><strong>Innervation:</strong> anterior vulva — ilioinguinal nerve and the genital branch of the genitofemoral nerve; posterior vulva — pudendal nerve and posterior cutaneous nerve of the thigh. The clitoris and vestibule additionally receive parasympathetic supply from cavernous nerves derived from the uterovaginal plexus.<span class="ref">Slide 23</span></p>
+
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Clinical Correlations</div>
+    <p><strong>Genital tract infection:</strong> because the tract communicates with the peritoneal cavity via the abdominal ostia of the uterine tubes, vaginal, uterine or tubal infection can result in peritonitis.</p>
+    <p><strong>Hysterosalpingography:</strong> a radiographic study of tubal patency, injecting contrast or CO₂ gas into the uterus and tubes via the external cervical os.</p>
+    <p><strong>Tubal ligation:</strong> a surgical birth-control method; oocytes entering the ligated tubes degenerate and are absorbed.</p>
+    <p><strong>Bicornuate uterus:</strong> incomplete fusion of the embryonic paramesonephric ducts can yield anomalies ranging from a unicornuate uterus (one duct only) to a duplicated bicornuate uterus.</p>
+    <p><strong>Hysterectomy:</strong> surgical removal of the uterus, common given the frequency of uterine and cervical cancer, performed via the abdominal wall or through the vagina.</p>
+    <p style="margin-bottom:0;"><strong>Vaginal distension:</strong> the vagina, especially the posterior fornix region, distends markedly during intercourse and even more so during childbirth, particularly in the anteroposterior direction as the fetal shoulders deliver.</p>
+  </div>
+  <span class="ref">Slides 24–28</span>
+  <a class="top-link" href="#top">↑ Back to top</a>
+</section>
+
+<section class="topic" id="quiz-section">
+  <div class="topic-head">
+    <h2>Study Questions &amp; Active Recall</h2>
+  </div>
+  <div class="box clinical">
+    <div class="box-title"><span class="dot"></span>Test Your Knowledge</div>
+    <p style="margin-bottom:0;">Try to answer these without scrolling back up to the notes!</p>
+  </div>
+  
+  <h3 class="sub">Thorax</h3>
+  <ul>
+    <li>At what vertebral level does the trachea bifurcate, and what other key anatomical landmarks are found at this plane (the sternal angle)?</li>
+    <li>Which ribs are considered "true", "false", and "floating", and what defines these categories?</li>
+    <li>What specific structures pass through the three major diaphragmatic hiatuses, and at what vertebral levels do they occur?</li>
+    <li>Describe the pathway of blood circulation through the heart, starting from the superior and inferior vena cava.</li>
+  </ul>
+  
+  <h3 class="sub">Abdomen &amp; Pelvis</h3>
+  <ul>
+    <li>Describe the path of a kidney stone (calculus) travelling from the renal pelvis to the bladder, naming the three physiological constrictions where it is most likely to get stuck.</li>
+    <li>How does the peritoneal covering differ between the superior, middle, and inferior thirds of the rectum?</li>
+    <li>What are the four parts of the male urethra, and which part is the widest?</li>
+    <li>Which specific zone of the prostate gland is the most common site for prostate cancer versus benign prostatic hyperplasia (BPH)?</li>
+    <li>Describe the four parts of the uterine tube, and identify the usual site of fertilisation.</li>
+  </ul>
+  <a class="top-link" href="#top">↑ Back to top</a>
+</section>
+
+    </div>
+
+    <footer>
+      <p>Study notes compiled and paraphrased from thirteen gross-anatomy lecture decks covering the thorax and abdominopelvic viscera. Each statement is traceable to its originating deck and slide number via the reference tags throughout. Intended as a revision aid — always cross-check against your course's primary references and a current anatomy atlas before an examination.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Mobile nav toggle
+  const toggle = document.getElementById('navToggle');
+  const sidebar = document.getElementById('sidebar');
+  toggle && toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+  document.querySelectorAll('#navList a').forEach(a=>{
+    a.addEventListener('click', ()=> sidebar.classList.remove('open'));
+  });
+
+  // Active link highlighting on scroll
+  const sections = document.querySelectorAll('section.topic');
+  const navLinks = document.querySelectorAll('#navList a');
+  const setActive = () => {
+    let currentId = '';
+    const scrollPos = window.scrollY + 140;
+    sections.forEach(sec=>{
+      if(scrollPos >= sec.offsetTop) currentId = sec.id;
+    });
+    navLinks.forEach(l=>{
+      l.classList.toggle('active', l.getAttribute('href') === '#' + currentId);
+    });
+  };
+  window.addEventListener('scroll', setActive);
+  setActive();
+
+  // Simple filter/search of nav items
+  const searchBox = document.getElementById('searchBox');
+  searchBox && searchBox.addEventListener('input', (e)=>{
+    const q = e.target.value.trim().toLowerCase();
+    document.querySelectorAll('#navList li').forEach(li=>{
+      const text = li.textContent.toLowerCase();
+      li.style.display = text.includes(q) ? '' : 'none';
+    });
+  });
+
+  // ---------- Custom animated cursor ----------
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  window.addEventListener('mousemove', (e)=>{
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.left = mouseX + 'px';
+    cursorDot.style.top = mouseY + 'px';
+  });
+  (function animateRing(){
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+  document.querySelectorAll('a, button, .card, .box, input, .flow span.step').forEach(el=>{
+    el.addEventListener('mouseenter', ()=> document.body.classList.add('cursor-active'));
+    el.addEventListener('mouseleave', ()=> document.body.classList.remove('cursor-active'));
+  });
+
+  // ---------- Scroll-reveal animations ----------
+  const revealTargets = document.querySelectorAll(
+    'section.topic, .card, .box, table, .flow, .stat, .hero .note'
+  );
+  revealTargets.forEach(el => el.classList.add('reveal-el'));
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+  revealTargets.forEach(el => io.observe(el));
+
+  // ---------- Back Home button smooth-scroll ----------
+  const backHomeBtn = document.getElementById('backHomeBtn');
+  backHomeBtn && backHomeBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
+
