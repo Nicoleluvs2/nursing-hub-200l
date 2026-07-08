@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>200-Level Nursing Hub</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    font-family: Georgia, serif; 
+    background: #f4f0ea; 
+    color: #1a1a1a; 
+    line-height: 1.6; 
+  }
+
+  header {
+    background: #7b1c1c;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  header h1 { font-size: 2rem; margin-bottom: 10px; }
+  header p { font-size: 1rem; opacity: 0.9; }
+
+  .container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+    color: #7b1c1c;
+    border-bottom: 2px solid #d4a017;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+  }
+
+  /* Grid Layout for Course Cards */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+  }
+
+  /* Individual Course Card Styling */
+  .course-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 5px solid #7b1c1c;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+  }
+
+  .card-content {
+    padding: 25px;
+    flex-grow: 1;
+  }
+
+  .course-code {
+    font-size: 0.85rem;
+    color: #888;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+
+  .course-title {
+    font-size: 1.2rem;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+  }
+
+  .card-footer {
+    background: #fff8e8;
+    padding: 12px 25px;
+    font-size: 0.85rem;
+    color: #7b1c1c;
+    font-weight: bold;
+    text-align: right;
+    border-top: 1px solid #ede6dc;
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px;
+    font-size: 0.85rem;
+    color: #888;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Caleb University Nursing</h1>
+  <p>200-Level Coursework & Study Hub</p>
+</header>
+
+<div class="container">
+  <h2 class="section-title">My Courses</h2>
+  
+  <div class="course-grid">
+    
+    <!-- PATHOLOGY (Active Link) -->
+    <a href="pathoma.html" class="course-card">
+      <div class="card-content">
+        <div class="course-code">PATHOLOGY</div>
+        <h3 class="course-title">Pathophysiology</h3>
+        <p style="font-size: 0.9rem; color: #555;">Detailed Pathoma notes covering cellular injury, neoplasia, and systemic diseases.</p>
+      </div>
+      <div class="card-footer">Open Notes ➔</div>
+    </a>
+
+    <!-- BCH BIOCHEMISTRY -->
+    <a href="#" class="course-card">
+      <div class="card-content">
+        <div class="course-code">BIOCHEMISTRY</div>
+        <h3 class="course-title">BCH Biochemistry</h3>
+        <p style="font-size: 0.9rem; color: #555;">Metabolic pathways, molecular biology, and chemical processes.</p>
+      </div>
+      <div class="card-footer">Coming Soon ➔</div>
+    </a>
+
+    <!-- RENAL PHYSIOLOGY -->
+    <a href="#" class="course-card">
+      <div class="card-content">
+        <div class="course-code">PHYSIOLOGY</div>
+        <h3 class="course-title">Renal Physiology</h3>
+        <p style="font-size: 0.9rem; color: #555;">Kidney function, fluid balance, and acid-base regulation.</p>
+      </div>
+      <div class="card-footer">Coming Soon ➔</div>
+    </a>
+
+    <!-- NEUROANATOMY (Active Link) -->
+    <a href="neuroanatomy.html" class="course-card">
+      <div class="card-content">
+        <div class="course-code">ANATOMY</div>
+        <h3 class="course-title">Neuroanatomy</h3>
+        <p style="font-size: 0.9rem; color: #555;">Structure, organization, and function of the nervous system.</p>
+      </div>
+      <div class="card-footer">Open Notes ➔</div>
+    </a>
+
+    <!-- THORAX, ABDOMEN AND PELVIS -->
+    <a href="#" class="course-card">
+      <div class="card-content">
+        <div class="course-code">ANATOMY</div>
+        <h3 class="course-title">Thorax, Abdomen & Pelvis</h3>
+        <p style="font-size: 0.9rem; color: #555;">Regional anatomy, organ systems, and structural relationships.</p>
+      </div>
+      <div class="card-footer">Coming Soon ➔</div>
+    </a>
+
+    <!-- NURSING PRACTICE -->
+    <a href="#" class="course-card">
+      <div class="card-content">
+        <div class="course-code">NURSING</div>
+        <h3 class="course-title">Nursing Practice</h3>
+        <p style="font-size: 0.9rem; color: #555;">Foundations of nursing care, theories, and ethics.</p>
+      </div>
+      <div class="card-footer">Coming Soon ➔</div>
+    </a>
+
+    <!-- BASIC CLINICAL PROCEDURES -->
+    <a href="#" class="course-card">
+      <div class="card-content">
+        <div class="course-code">CLINICALS</div>
+        <h3 class="course-title">Basic Clinical Procedures & First Aid</h3>
+        <p style="font-size: 0.9rem; color: #555;">Essential clinical skills, patient care techniques, and emergency response.</p>
+      </div>
+      <div class="card-footer">Coming Soon ➔</div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <p>Study Hub • Developed for 200L Clinical & Academic Prep</p>
+</footer>
+
+</body>
+</html>
