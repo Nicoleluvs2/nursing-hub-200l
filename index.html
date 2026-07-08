@@ -44,23 +44,50 @@
     gap: 25px;
   }
 
-  /* Individual Course Card Styling */
+  /* --- Smooth Animation Keyframes --- */
+  @keyframes fadeUp {
+    0% { 
+      opacity: 0; 
+      transform: translateY(30px); 
+    }
+    100% { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  /* Individual Course Card Styling with Smooth Transitions */
   .course-card {
     background: white;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-top: 5px solid #7b1c1c;
     text-decoration: none;
     color: inherit;
     display: flex;
     flex-direction: column;
+    
+    /* Animation setup for page load */
+    opacity: 0; 
+    animation: fadeUp 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+    
+    /* Silky smooth hover transition */
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
+
+  /* Staggered entrance delays so they cascade in beautifully */
+  .course-card:nth-child(1) { animation-delay: 0.1s; }
+  .course-card:nth-child(2) { animation-delay: 0.2s; }
+  .course-card:nth-child(3) { animation-delay: 0.3s; }
+  .course-card:nth-child(4) { animation-delay: 0.4s; }
+  .course-card:nth-child(5) { animation-delay: 0.5s; }
+  .course-card:nth-child(6) { animation-delay: 0.6s; }
+  .course-card:nth-child(7) { animation-delay: 0.7s; }
   
   .course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    transform: translateY(-6px) scale(1.02);
+    /* Adding a subtle maroon tint to the hover shadow */
+    box-shadow: 0 14px 28px rgba(123, 28, 28, 0.12);
   }
 
   .card-content {
@@ -93,6 +120,16 @@
     border-top: 1px solid #ede6dc;
   }
 
+  /* Animated Arrow in Footer */
+  .card-footer .arrow {
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .course-card:hover .card-footer .arrow {
+    transform: translateX(6px);
+  }
+
   footer {
     text-align: center;
     padding: 30px;
@@ -114,67 +151,74 @@
   
   <div class="course-grid">
     
+    <!-- PATHOLOGY (Active Link) -->
     <a href="pathoma.html" class="course-card">
       <div class="card-content">
         <div class="course-code">PATHOLOGY</div>
         <h3 class="course-title">Pathophysiology</h3>
         <p style="font-size: 0.9rem; color: #555;">Detailed Pathoma notes covering cellular injury, neoplasia, and systemic diseases.</p>
       </div>
-      <div class="card-footer">Open Notes ➔</div>
+      <div class="card-footer">Open Notes <span class="arrow">➔</span></div>
     </a>
 
+    <!-- BCH BIOCHEMISTRY -->
     <a href="#" class="course-card">
       <div class="card-content">
         <div class="course-code">BIOCHEMISTRY</div>
         <h3 class="course-title">BCH Biochemistry</h3>
         <p style="font-size: 0.9rem; color: #555;">Metabolic pathways, molecular biology, and chemical processes.</p>
       </div>
-      <div class="card-footer">Coming Soon ➔</div>
+      <div class="card-footer">Coming Soon <span class="arrow">➔</span></div>
     </a>
 
+    <!-- RENAL PHYSIOLOGY -->
     <a href="#" class="course-card">
       <div class="card-content">
         <div class="course-code">PHYSIOLOGY</div>
         <h3 class="course-title">Renal Physiology</h3>
         <p style="font-size: 0.9rem; color: #555;">Kidney function, fluid balance, and acid-base regulation.</p>
       </div>
-      <div class="card-footer">Coming Soon ➔</div>
+      <div class="card-footer">Coming Soon <span class="arrow">➔</span></div>
     </a>
 
+    <!-- NEUROANATOMY (Active Link) -->
     <a href="neuroanatomy.html" class="course-card">
       <div class="card-content">
         <div class="course-code">ANATOMY</div>
         <h3 class="course-title">Neuroanatomy</h3>
         <p style="font-size: 0.9rem; color: #555;">Structure, organization, and function of the nervous system.</p>
       </div>
-      <div class="card-footer">Open Notes ➔</div>
+      <div class="card-footer">Open Notes <span class="arrow">➔</span></div>
     </a>
 
+    <!-- THORAX, ABDOMEN AND PELVIS (Active Link) -->
     <a href="thorax-abdominopelvic-anatomy-notes.html" class="course-card">
       <div class="card-content">
         <div class="course-code">ANATOMY</div>
         <h3 class="course-title">Thorax, Abdomen & Pelvis</h3>
         <p style="font-size: 0.9rem; color: #555;">Regional anatomy, organ systems, and structural relationships.</p>
       </div>
-      <div class="card-footer">Open Notes ➔</div>
+      <div class="card-footer">Open Notes <span class="arrow">➔</span></div>
     </a>
 
+    <!-- NURSING PRACTICE -->
     <a href="#" class="course-card">
       <div class="card-content">
         <div class="course-code">NURSING</div>
         <h3 class="course-title">Nursing Practice</h3>
         <p style="font-size: 0.9rem; color: #555;">Foundations of nursing care, theories, and ethics.</p>
       </div>
-      <div class="card-footer">Coming Soon ➔</div>
+      <div class="card-footer">Coming Soon <span class="arrow">➔</span></div>
     </a>
 
+    <!-- BASIC CLINICAL PROCEDURES -->
     <a href="#" class="course-card">
       <div class="card-content">
         <div class="course-code">CLINICALS</div>
         <h3 class="course-title">Basic Clinical Procedures & First Aid</h3>
         <p style="font-size: 0.9rem; color: #555;">Essential clinical skills, patient care techniques, and emergency response.</p>
       </div>
-      <div class="card-footer">Coming Soon ➔</div>
+      <div class="card-footer">Coming Soon <span class="arrow">➔</span></div>
     </a>
 
   </div>
