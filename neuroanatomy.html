@@ -2,68 +2,225 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Neuroanatomy Study Notes — Clinically Oriented Anatomy (Moore, Agur & Dalley)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#1d232b; --sub:#4b5563; --line:#e2e5ea; --accent:#3b5bdb; --accent-soft:#eef1fd;
-    --warn-bg:#fff7ed; --warn-line:#f4a94c; --clin-bg:#f4f8f6; --clin-line:#2f9e6e;
+    --ink:#eef0f5; --sub:#a7adc2; --line:rgba(255,255,255,.14);
+    --accent:#7d9bff; --accent-soft:rgba(125,155,255,.14);
+    --warn-bg:rgba(244,169,76,.10); --warn-line:#f4a94c;
+    --clin-bg:rgba(47,158,110,.10); --clin-line:#3ee699;
+    --glass-border:rgba(255,255,255,.16);
+    --card:rgba(255,255,255,.06);
   }
   *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   body{
-    font-family:"Iowan Old Style","Palatino Linotype",Georgia,serif;
+    font-family:"Source Serif 4","Iowan Old Style","Palatino Linotype",Georgia,serif;
     color:var(--ink); max-width:860px; margin:0 auto; padding:2.5rem 1.5rem 6rem;
-    line-height:1.6; background:#fdfdfc;
+    line-height:1.6;
+    background:#0b0e17;
+    cursor:none;
+    position:relative;
+    overflow-x:hidden;
   }
-  h1{font-size:1.9rem; margin-bottom:.2rem;}
+
+  /* ---------- Animated fluid gradient background ---------- */
+  .bg-fluid{
+    position:fixed; inset:0; z-index:-2;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(125,155,255,.30), transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(62,230,208,.26), transparent 45%),
+      radial-gradient(circle at 75% 80%, rgba(242,196,100,.22), transparent 45%),
+      radial-gradient(circle at 20% 85%, rgba(47,158,110,.26), transparent 45%),
+      linear-gradient(160deg,#0b0e17 0%, #0d1120 50%, #0b0e17 100%);
+    background-size:200% 200%, 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+    animation:fluidShift 24s ease-in-out infinite;
+  }
+  .bg-noise{
+    position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  @keyframes fluidShift{
+    0%{background-position:0% 0%, 100% 0%, 100% 100%, 0% 100%, 0 0;}
+    25%{background-position:30% 40%, 70% 30%, 80% 70%, 20% 60%, 0 0;}
+    50%{background-position:60% 20%, 40% 60%, 50% 40%, 60% 80%, 0 0;}
+    75%{background-position:20% 70%, 80% 60%, 30% 20%, 70% 30%, 0 0;}
+    100%{background-position:0% 0%, 100% 0%, 100% 100%, 0% 100%, 0 0;}
+  }
+
+  /* ---------- Custom animated cursor ---------- */
+  #cursorDot, #cursorRing{
+    position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+  }
+  #cursorDot{
+    width:8px; height:8px;
+    background:var(--accent);
+    box-shadow:0 0 10px 2px rgba(125,155,255,.8);
+    transition:transform .08s ease-out, background .2s ease;
+  }
+  #cursorRing{
+    width:34px; height:34px;
+    border:1.5px solid rgba(255,255,255,.55);
+    background:rgba(255,255,255,.04);
+    backdrop-filter:blur(2px);
+    transition:transform .18s ease-out, width .2s ease, height .2s ease, border-color .2s ease, background .2s ease;
+  }
+  body.cursor-active #cursorRing{
+    width:52px; height:52px;
+    border-color:var(--clin-line);
+    background:rgba(62,230,153,.10);
+  }
+  @media (max-width:760px){
+    #cursorDot, #cursorRing{display:none;}
+    body{cursor:auto;}
+  }
+
+  /* ---------- Back Home button ---------- */
+  #backHomeBtn{
+    position:fixed;
+    top:18px; left:18px; z-index:200;
+    display:flex; align-items:center; gap:8px;
+    padding:10px 16px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    border:1px solid var(--glass-border);
+    backdrop-filter:blur(16px) saturate(160%);
+    -webkit-backdrop-filter:blur(16px) saturate(160%);
+    color:var(--ink);
+    font-family:Arial, sans-serif;
+    font-size:.78rem;
+    text-decoration:none;
+    letter-spacing:.02em;
+    box-shadow:0 8px 24px rgba(0,0,0,.35);
+    transition:transform .2s ease, background .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  #backHomeBtn:hover{
+    transform:translateY(-2px) scale(1.03);
+    background:rgba(255,255,255,.14);
+    border-color:rgba(125,155,255,.6);
+    box-shadow:0 12px 30px rgba(125,155,255,.18);
+  }
+  #backHomeBtn .arrow{color:var(--accent); font-size:1rem; line-height:1;}
+  @media (max-width:640px){
+    #backHomeBtn{ top:auto; bottom:16px; left:16px; padding:9px 14px; font-size:.72rem;}
+  }
+
+  h1{
+    font-family:'Fraunces','Source Serif 4',serif;
+    font-size:1.9rem; margin-bottom:.2rem; margin-top:2.5rem; color:#fff;
+    background:linear-gradient(90deg,#fff, var(--accent) 60%, var(--clin-line));
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+    display:inline-block;
+  }
   .subtitle{color:var(--sub); font-size:1rem; margin-top:0; font-style:italic;}
+
   .caveat{
     background:var(--warn-bg); border-left:4px solid var(--warn-line);
-    padding:1rem 1.2rem; border-radius:4px; margin:1.5rem 0 2.5rem; font-size:.95rem;
+    border-top:1px solid rgba(244,169,76,.25); border-right:1px solid rgba(244,169,76,.25); border-bottom:1px solid rgba(244,169,76,.25);
+    backdrop-filter:blur(14px) saturate(160%);
+    padding:1rem 1.2rem; border-radius:0 10px 10px 0; margin:1.5rem 0 2.5rem; font-size:.95rem;
+    transition:transform .3s ease, box-shadow .3s ease;
   }
-  .caveat strong{display:block; margin-bottom:.3rem; font-family:Arial, sans-serif; font-size:.85rem; text-transform:uppercase; letter-spacing:.04em; color:#92400e;}
+  .caveat:hover{ transform:translateY(-3px); box-shadow:0 14px 30px rgba(244,169,76,.10); }
+  .caveat strong{display:block; margin-bottom:.3rem; font-family:Arial, sans-serif; font-size:.85rem; text-transform:uppercase; letter-spacing:.04em; color:#f4c483;}
+
   nav{
-    background:var(--accent-soft); border-radius:8px; padding:1.2rem 1.5rem; margin-bottom:2.5rem;
+    background:var(--card); border:1px solid var(--glass-border);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+    border-radius:14px; padding:1.2rem 1.5rem; margin-bottom:2.5rem;
     font-family:Arial, sans-serif; font-size:.92rem;
+    box-shadow:0 10px 30px rgba(0,0,0,.28);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
   }
+  nav:hover{ transform:translateY(-4px); box-shadow:0 20px 46px rgba(125,155,255,.12); border-color:rgba(125,155,255,.4); }
   nav strong{display:block; margin-bottom:.5rem; font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; color:var(--accent);}
   nav ol{margin:0; padding-left:1.2rem;}
-  nav a{color:var(--ink); text-decoration:none;}
-  nav a:hover{text-decoration:underline;}
-  section{margin-bottom:3rem; padding-top:1rem;}
+  nav a{color:var(--ink); text-decoration:none; transition:color .2s ease;}
+  nav a:hover{color:var(--accent); text-decoration:underline;}
+
+  section{margin-bottom:3rem; padding-top:1rem; scroll-margin-top:20px;}
   h2{
     font-family:Arial, sans-serif; font-size:1.3rem; color:var(--accent);
-    border-bottom:2px solid var(--accent); padding-bottom:.4rem; margin-top:0;
+    border-bottom:2px solid var(--glass-border); padding-bottom:.4rem; margin-top:0;
   }
-  h3{font-family:Arial, sans-serif; font-size:1.05rem; margin-top:1.8rem; margin-bottom:.5rem;}
-  h4{font-family:Arial, sans-serif; font-size:.95rem; margin-bottom:.3rem; color:#334;}
+  h3{font-family:Arial, sans-serif; font-size:1.05rem; margin-top:1.8rem; margin-bottom:.5rem; color:#dfe3ee;}
+  h4{font-family:Arial, sans-serif; font-size:.95rem; margin-bottom:.3rem; color:#b7c0e0;}
+
   .pg{
     display:inline-block; font-family:Arial, sans-serif; font-size:.72rem; font-weight:bold;
-    color:var(--accent); background:var(--accent-soft); border-radius:10px; padding:.1rem .55rem;
+    color:var(--accent); background:var(--accent-soft); border:1px solid rgba(125,155,255,.3);
+    border-radius:10px; padding:.1rem .55rem;
     margin-left:.4rem; vertical-align:middle;
   }
+
   .clin{
-    background:var(--clin-bg); border-left:4px solid var(--clin-line); border-radius:4px;
+    background:var(--clin-bg); border-left:4px solid var(--clin-line);
+    border-top:1px solid rgba(62,230,153,.25); border-right:1px solid rgba(62,230,153,.25); border-bottom:1px solid rgba(62,230,153,.25);
+    backdrop-filter:blur(14px) saturate(160%);
+    border-radius:0 10px 10px 0;
     padding:.8rem 1.1rem; margin:.9rem 0; font-size:.93rem;
+    transition:transform .3s ease, box-shadow .3s ease;
   }
+  .clin:hover{ transform:translateY(-3px); box-shadow:0 14px 30px rgba(62,230,153,.10); }
   .clin::before{
     content:"CLINICAL CORRELATION"; display:block; font-family:Arial, sans-serif; font-size:.7rem;
     letter-spacing:.05em; color:var(--clin-line); font-weight:bold; margin-bottom:.3rem;
   }
-  table{width:100%; border-collapse:collapse; margin:1rem 0; font-size:.92rem;}
+
+  table{
+    width:100%; border-collapse:collapse; margin:1rem 0; font-size:.92rem;
+    background:var(--card); border-radius:12px; overflow:hidden;
+    backdrop-filter:blur(14px) saturate(160%);
+    border:1px solid var(--glass-border);
+  }
   th,td{border:1px solid var(--line); padding:.5rem .7rem; text-align:left; vertical-align:top;}
-  th{background:var(--accent-soft); font-family:Arial, sans-serif; font-size:.82rem;}
-  tr:nth-child(even){background:#fafafa;}
+  th{background:rgba(125,155,255,.18); color:#e4e9ff; font-family:Arial, sans-serif; font-size:.82rem;}
+  tr:nth-child(even) td{background:rgba(255,255,255,.03);}
+
   ul, ol{padding-left:1.4rem;}
   li{margin-bottom:.3rem;}
+  strong{color:var(--accent);}
+
   .fig-note{font-size:.85rem; color:var(--sub); font-style:italic;}
-  footer{margin-top:4rem; padding-top:1.5rem; border-top:1px solid var(--line); font-size:.85rem; color:var(--sub); font-family:Arial, sans-serif;}
+  footer{margin-top:4rem; padding-top:1.5rem; border-top:1px solid var(--glass-border); font-size:.85rem; color:var(--sub); font-family:Arial, sans-serif;}
   .backtop{font-family:Arial, sans-serif; font-size:.78rem;}
   .backtop a{color:var(--accent); text-decoration:none;}
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal-el{
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal-el.in-view{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  @media print{
+    #backHomeBtn, #cursorDot, #cursorRing{display:none;}
+    body{cursor:auto; background:#fff; color:#000;}
+  }
 </style>
 </head>
 <body>
 
-<h1>Neuroanatomy Study Notes</h1>
+<div class="bg-fluid"></div>
+<div class="bg-noise"></div>
+<div id="cursorRing"></div>
+<div id="cursorDot"></div>
+
+<a href="index.html" id="backHomeBtn" aria-label="Back Home">
+  <span class="arrow">⌂</span> Back Home
+</a>
+
+<h1 id="top">Neuroanatomy Study Notes</h1>
 <p class="subtitle">Paraphrased study notes built from <em>Clinically Oriented Anatomy</em>, 8th ed. (Moore, Agur &amp; Dalley) — organized to match your Anatomy II course outline. Page numbers refer to the PDF page count.</p>
 
 <div class="caveat">
@@ -329,6 +486,51 @@ For those three topics you'll need your lecture notes, Pathoma-style pathway dia
 Source: <em>Clinically Oriented Anatomy</em>, 8th edition — Keith L. Moore, Anne M. R. Agur, Arthur F. Dalley. All notes above are paraphrased summaries for study purposes, not reproductions of the original text. Page numbers refer to the position within the uploaded PDF.
 <div class="backtop" style="margin-top:.8rem;"><a href="#sec1">↑ Back to top</a></div>
 </footer>
+
+<script>
+  // ---------- Custom animated cursor ----------
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  window.addEventListener('mousemove', (e)=>{
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.left = mouseX + 'px';
+    cursorDot.style.top = mouseY + 'px';
+  });
+  (function animateRing(){
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+  document.querySelectorAll('a, button, .clin, .caveat, nav, table').forEach(el=>{
+    el.addEventListener('mouseenter', ()=> document.body.classList.add('cursor-active'));
+    el.addEventListener('mouseleave', ()=> document.body.classList.remove('cursor-active'));
+  });
+
+  // ---------- Scroll-reveal animations ----------
+  const revealTargets = document.querySelectorAll(
+    'section, .clin, .caveat, nav, table, h1, .subtitle'
+  );
+  revealTargets.forEach(el => el.classList.add('reveal-el'));
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -60px 0px' });
+  revealTargets.forEach(el => io.observe(el));
+
+  // ---------- Back Home button: navigate to index.html ----------
+  const backHomeBtn = document.getElementById('backHomeBtn');
+  backHomeBtn && backHomeBtn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    window.location.href = 'index.html';
+  });
+</script>
 
 </body>
 </html>
