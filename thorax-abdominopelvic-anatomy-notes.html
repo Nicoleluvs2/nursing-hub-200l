@@ -404,7 +404,7 @@
 <div id="cursorRing"></div>
 <div id="cursorDot"></div>
 
-<a href="#top" id="backHomeBtn" aria-label="Back Home">
+<a href="index.html" id="backHomeBtn" aria-label="Back Home">
   <span class="arrow">⌂</span> Back Home
 </a>
 
@@ -1670,11 +1670,11 @@
   }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
   revealTargets.forEach(el => io.observe(el));
 
-  // ---------- Back Home button smooth-scroll ----------
+  // ---------- Back Home button: navigate to index.html ----------
   const backHomeBtn = document.getElementById('backHomeBtn');
   backHomeBtn && backHomeBtn.addEventListener('click', (e)=>{
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.location.href = 'index.html';
   });
 </script>
 
