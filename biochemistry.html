@@ -14,6 +14,8 @@
     --acid: #b91c1c;
     --neutral: #16a34a;
     --base: #1d4ed8;
+    --low: #1d4ed8;
+    --high: #b91c1c;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -112,6 +114,7 @@
     letter-spacing: 0.3px;
   }
   .subhead:first-of-type { margin-top: 0; }
+  .subhead-note { color: #94a3b8; font-size: 0.85rem; margin: -12px 0 20px; max-width: 620px; line-height: 1.6; }
 
   .topic-grid {
     display: grid;
@@ -149,7 +152,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 14px;
-    margin-top: 26px;
+    margin-top: 4px;
   }
   .organelle-chip {
     background: var(--card-bg);
@@ -163,12 +166,12 @@
   .organelle-chip .glyph { font-size: 1.4rem; margin-bottom: 8px; }
   .organelle-chip .name { font-size: 0.82rem; color: #e2e8f0; }
 
-  /* Process flow - module 2 */
+  /* Process flow - fractionation */
   .flow {
     display: flex;
     align-items: stretch;
     gap: 0;
-    margin-top: 26px;
+    margin-top: 4px;
     flex-wrap: wrap;
   }
   .flow-step {
@@ -199,14 +202,14 @@
   }
   @media (max-width: 750px) { .flow-arrow { transform: rotate(90deg); padding: 8px 0; } }
 
-  /* Fluid compartment bars - module 3 */
+  /* Fluid compartment bars */
   .fluid-lab {
     background: var(--card-bg);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 24px;
     padding: 36px;
-    margin-top: 30px;
+    margin-top: 4px;
   }
   .fluid-lab h3 { font-size: 1.2rem; margin-bottom: 6px; }
   .fluid-lab .fluid-sub { color: #94a3b8; font-size: 0.88rem; margin-bottom: 30px; }
@@ -230,21 +233,79 @@
   .fill-ecf { width: 20%; background: linear-gradient(90deg, #15803d, #4ade80); }
   .fluid-note { color: #94a3b8; font-size: 0.78rem; margin-top: 4px; }
 
-  .hormone-grid {
+  .hormone-grid, .ion-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
-    margin-top: 26px;
+    margin-top: 4px;
   }
 
-  /* pH lab - module 4 */
+  /* Ion cards */
+  .ion-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 24px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .ion-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px var(--glow);
+    border-color: var(--accent);
+  }
+  .ion-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .ion-symbol { font-size: 1.4rem; font-weight: 700; }
+  .ion-loc {
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .loc-ecf { background: rgba(29,78,216,0.25); color: #93c5fd; border: 1px solid rgba(29,78,216,0.6); }
+  .loc-icf { background: rgba(123,28,28,0.3); color: #fca5a5; border: 1px solid rgba(123,28,28,0.6); }
+  .ion-card p { color: #cbd5e1; font-size: 0.88rem; line-height: 1.6; }
+
+  /* Disorder table */
+  .disorder-table-wrap { margin-top: 4px; overflow-x: auto; }
+  .disorder-table {
+    width: 100%;
+    min-width: 620px;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .disorder-table th, .disorder-table td {
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 0.88rem;
+    vertical-align: top;
+  }
+  .disorder-table th {
+    letter-spacing: 1px;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    color: #f1f5f9;
+  }
+  .disorder-table thead th:first-child { background: transparent; }
+  .disorder-table thead th.th-low { background: rgba(29,78,216,0.25); }
+  .disorder-table thead th.th-high { background: rgba(185,28,28,0.25); }
+  .disorder-table tr:not(:last-child) td { border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .disorder-table td:first-child { color: #e2e8f0; font-weight: 600; width: 22%; }
+  .disorder-table td.cell-low { color: #93c5fd; }
+  .disorder-table td.cell-high { color: #fca5a5; }
+
+  /* pH lab */
   .ph-lab {
     background: var(--card-bg);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 24px;
     padding: 36px;
-    margin-top: 30px;
+    margin-top: 4px;
   }
   .ph-lab h3 { font-size: 1.2rem; margin-bottom: 6px; }
   .ph-lab .ph-sub { color: #94a3b8; font-size: 0.88rem; margin-bottom: 30px; }
@@ -327,11 +388,11 @@
   .status-alkalosis { background: rgba(29,78,216,0.25); color: #93c5fd; border: 1px solid rgba(29,78,216,0.6); }
   .ph-note { color: #cbd5e1; font-size: 0.85rem; max-width: 380px; }
 
-  /* DNA/RNA comparison - module 5 */
+  /* DNA/RNA comparison */
   .compare-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 26px;
+    margin-top: 4px;
     background: var(--card-bg);
     backdrop-filter: blur(10px);
     border-radius: 20px;
@@ -384,15 +445,14 @@
   <header>
     <div class="eyebrow">BCH 202 &middot; 200 LEVEL</div>
     <h1>Biochemistry</h1>
-    <p>Five modules, foundation first: cell structure, the lab techniques used to study it, water and fluid balance, acid&ndash;base chemistry, and how genetic information is stored.</p>
+    <p>Four modules, foundation first: cell structure and the lab techniques used to study it, water and acid&ndash;base chemistry, electrolyte physiology and its clinical disorders, and how genetic information is stored.</p>
   </header>
 
   <nav class="module-nav">
     <a href="#module-1">1 &middot; Cytology</a>
-    <a href="#module-2">2 &middot; Analytical Cytology</a>
-    <a href="#module-3">3 &middot; Water & Fluids</a>
-    <a href="#module-4">4 &middot; Acid&ndash;Base</a>
-    <a href="#module-5">5 &middot; Nucleic Acids</a>
+    <a href="#module-2">2 &middot; Water & Acid&ndash;Base</a>
+    <a href="#module-3">3 &middot; Electrolytes</a>
+    <a href="#module-4">4 &middot; Nucleic Acids</a>
   </nav>
 
   <!-- MODULE 1 -->
@@ -401,7 +461,7 @@
       <span class="module-num">MODULE 1</span>
       <h2>Cytology and Cellular Biology</h2>
     </div>
-    <p class="module-intro">The fundamental chemistry and structure that sustain living organisms, down to how each organelle contributes to the cell as a working system.</p>
+    <p class="module-intro">The fundamental chemistry and structure that sustain living organisms, plus the lab techniques used to pull a cell apart and study its pieces.</p>
 
     <div class="topic-grid">
       <div class="topic-card reveal">
@@ -410,8 +470,8 @@
       </div>
 
       <div class="topic-card reveal">
-        <h3>Prokaryotic vs. Eukaryotic Cells</h3>
-        <p>Structural differences and relative complexity between the two cell types, with examples of organisms built from each.</p>
+        <h3>Eukaryotic vs. Prokaryotic Cells</h3>
+        <p>Structural differences and relative complexity between the two cell types.</p>
       </div>
 
       <div class="topic-card reveal">
@@ -421,7 +481,7 @@
     </div>
 
     <div class="subhead">Cellular Organelles & Interactions</div>
-    <p class="module-intro" style="margin-top:0;">Structure, function, and biochemical interaction of six core organelles:</p>
+    <p class="subhead-note">Structure, function, and biochemical interaction of six core organelles:</p>
     <div class="organelle-strip">
       <div class="organelle-chip reveal"><div class="glyph">&#9633;</div><div class="name">Cell Wall</div></div>
       <div class="organelle-chip reveal"><div class="glyph">&#9711;</div><div class="name">Cell Membrane</div></div>
@@ -430,44 +490,31 @@
       <div class="organelle-chip reveal"><div class="glyph">&#9776;</div><div class="name">Golgi Apparatus</div></div>
       <div class="organelle-chip reveal"><div class="glyph">&#9899;</div><div class="name">Mitochondria</div></div>
     </div>
-  </section>
 
-  <!-- MODULE 2 -->
-  <section class="module" id="module-2">
-    <div class="module-head">
-      <span class="module-num">MODULE 2</span>
-      <h2>Analytical Cytology</h2>
-    </div>
-    <p class="module-intro">The biochemical techniques used to pull cells apart and isolate their components for analysis &mdash; the lab side of Module 1.</p>
-
+    <div class="subhead">Analytical Cytology &mdash; Cell Fractionation</div>
+    <p class="subhead-note">Isolating individual cellular components from a tissue sample so each can be studied on its own.</p>
     <div class="flow">
       <div class="flow-step reveal">
         <div class="step-num">STEP 1</div>
-        <h3>Cell Fractionation</h3>
-        <p>Isolating individual cellular components from a tissue sample so each can be studied on its own.</p>
-      </div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-step reveal">
-        <div class="step-num">STEP 2</div>
         <h3>Homogenization</h3>
         <p>Breaking cells open, typically suspended in an ice-cold isotonic buffer to prevent osmotic damage and slow enzyme degradation during the process.</p>
       </div>
       <div class="flow-arrow">&rarr;</div>
       <div class="flow-step reveal">
-        <div class="step-num">STEP 3</div>
+        <div class="step-num">STEP 2</div>
         <h3>Centrifugation</h3>
         <p>Applying centrifugal force to separate organelles from the homogenate by size and density for further biochemical analysis.</p>
       </div>
     </div>
   </section>
 
-  <!-- MODULE 3 -->
-  <section class="module" id="module-3">
+  <!-- MODULE 2 -->
+  <section class="module" id="module-2">
     <div class="module-head">
-      <span class="module-num">MODULE 3</span>
-      <h2>Water and Fluid Compartments</h2>
+      <span class="module-num">MODULE 2</span>
+      <h2>Water and Acid&ndash;Base Balance</h2>
     </div>
-    <p class="module-intro">The physical properties that make water essential to biochemistry, how it's distributed across the body, and what keeps that balance in check.</p>
+    <p class="module-intro">The physical properties that make water essential to biochemistry, how it's distributed across the body, what keeps that balance in check, and the pH chemistry that depends on it.</p>
 
     <div class="topic-grid">
       <div class="topic-card reveal">
@@ -476,9 +523,9 @@
       </div>
     </div>
 
+    <div class="subhead">Body Fluid Compartments</div>
     <div class="fluid-lab reveal">
-      <h3>Body Fluid Compartments</h3>
-      <p class="fluid-sub">Relative distribution of water across the body's major compartments.</p>
+      <p class="fluid-sub">TBW, ICF, and ECF are calculated as a percentage of patient body weight.</p>
 
       <div class="fluid-bar-row">
         <div class="fluid-bar-label"><span>Total Body Water (TBW)</span><span>~60% of body weight</span></div>
@@ -512,39 +559,16 @@
       </div>
     </div>
 
-    <div class="subhead">Clinical Correlates</div>
-    <div class="topic-grid">
-      <div class="topic-card reveal">
-        <h3>Dehydration</h3>
-        <p>Signs and symptoms that appear when fluid losses outpace intake &mdash; a direct consequence of the balance above tipping one way.</p>
-      </div>
-      <div class="topic-card reveal">
-        <h3>Overhydration</h3>
-        <p>Signs and symptoms that appear when fluid intake or retention outpaces the body's ability to clear it.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- MODULE 4 -->
-  <section class="module" id="module-4">
-    <div class="module-head">
-      <span class="module-num">MODULE 4</span>
-      <h2>Acid&ndash;Base Balance</h2>
-    </div>
-    <p class="module-intro">The chemistry behind why pH matters, and the buffer systems that hold it steady.</p>
-
+    <div class="subhead">Acid&ndash;Base Chemistry</div>
     <div class="topic-grid">
       <div class="topic-card reveal">
         <h3>The pH Scale</h3>
         <p>pH = &minus;log[H&spades;] &mdash; a log scale measuring hydrogen ion concentration in a fluid.</p>
       </div>
       <div class="topic-card reveal">
-        <h3>Effects on Enzymes & Cellular Processes</h3>
+        <h3>Significance in Biological Systems</h3>
         <p>Enzymes and cellular reactions are shaped for a narrow pH range; drift outside it and their activity falls off sharply.</p>
-      </div>
-      <div class="topic-card reveal">
-        <h3>Biological Buffers</h3>
-        <p>Buffer systems in biological fluids resist pH change by absorbing excess acid or base, keeping conditions stable for enzymes to function.</p>
+        <div class="clinical-tag">CLINICAL LINK &middot; used constantly in IV fluid management and reading arterial blood gases</div>
       </div>
     </div>
 
@@ -572,11 +596,102 @@
     </div>
   </section>
 
-  <!-- MODULE 5 -->
-  <section class="module" id="module-5">
+  <!-- MODULE 3 -->
+  <section class="module" id="module-3">
     <div class="module-head">
-      <span class="module-num">MODULE 5</span>
-      <h2>Nucleic Acids and Genetics</h2>
+      <span class="module-num">MODULE 3</span>
+      <h2>Electrolyte Physiology and Clinical Disorders</h2>
+    </div>
+    <p class="module-intro">What electrolytes do, where the body loses and replenishes them, and what goes wrong &mdash; ion by ion &mdash; when levels drift too high or too low.</p>
+
+    <div class="topic-grid">
+      <div class="topic-card reveal">
+        <h3>What Are Electrolytes?</h3>
+        <p>Charged ions dissolved in body fluids that conduct electrical signals, maintain fluid balance, and support enzyme function throughout the body.</p>
+      </div>
+      <div class="topic-card reveal">
+        <h3>Loss & Replenishment</h3>
+        <p>Electrolytes are lost through sweating, vomiting, and urine, and must be replenished through diet, oral rehydration, or IV fluids to stay in balance.</p>
+      </div>
+    </div>
+
+    <div class="subhead">The Five Major Ions</div>
+    <p class="subhead-note">Function, primary fluid compartment, and regulation for each:</p>
+    <div class="ion-grid">
+      <div class="ion-card reveal">
+        <div class="ion-top"><span class="ion-symbol">Na&spades;</span><span class="ion-loc loc-ecf">ECF</span></div>
+        <p>Sodium sets extracellular osmolarity and drives nerve impulse conduction. Regulated mainly by aldosterone and ADH.</p>
+      </div>
+      <div class="ion-card reveal">
+        <div class="ion-top"><span class="ion-symbol">K&spades;</span><span class="ion-loc loc-icf">ICF</span></div>
+        <p>Potassium sets the resting membrane potential that drives muscle contraction and cardiac rhythm. Regulated mainly by aldosterone.</p>
+      </div>
+      <div class="ion-card reveal">
+        <div class="ion-top"><span class="ion-symbol">Ca&sup2;&spades;</span><span class="ion-loc loc-ecf">ECF</span></div>
+        <p>Calcium supports muscle contraction, nerve signaling, and blood clotting. Regulated by parathyroid hormone, calcitonin, and vitamin D.</p>
+      </div>
+      <div class="ion-card reveal">
+        <div class="ion-top"><span class="ion-symbol">Mg&sup2;&spades;</span><span class="ion-loc loc-icf">ICF</span></div>
+        <p>Magnesium is a cofactor for hundreds of enzymes and stabilizes neuromuscular activity. Regulated by the kidneys and intestinal absorption.</p>
+      </div>
+      <div class="ion-card reveal">
+        <div class="ion-top"><span class="ion-symbol">Cl&supminus;</span><span class="ion-loc loc-ecf">ECF</span></div>
+        <p>Chloride follows sodium to help maintain fluid balance and acid&ndash;base status. Regulated alongside sodium by the kidneys.</p>
+      </div>
+    </div>
+
+    <div class="subhead">Pathophysiology & Clinical Implications</div>
+    <div class="topic-grid">
+      <div class="topic-card reveal">
+        <h3>Dehydration</h3>
+        <p>Signs and symptoms that appear when fluid losses outpace intake, often disturbing electrolyte levels alongside fluid volume.</p>
+      </div>
+      <div class="topic-card reveal">
+        <h3>Diabetes Insipidus</h3>
+        <p>A disorder of ADH signaling that leads to excessive dilute urine output and a risk of significant water and sodium imbalance.</p>
+      </div>
+    </div>
+
+    <div class="disorder-table-wrap">
+      <table class="disorder-table reveal">
+        <thead>
+          <tr>
+            <th>Electrolyte</th>
+            <th class="th-low">Low</th>
+            <th class="th-high">High</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sodium</td>
+            <td class="cell-low">Hyponatremia &mdash; confusion, coma, seizures</td>
+            <td class="cell-high">Hypernatremia &mdash; confusion, coma, seizures</td>
+          </tr>
+          <tr>
+            <td>Potassium</td>
+            <td class="cell-low">Hypokalemia &mdash; muscle weakness, paralysis</td>
+            <td class="cell-high">Hyperkalemia &mdash; muscle weakness, paralysis</td>
+          </tr>
+          <tr>
+            <td>Calcium</td>
+            <td class="cell-low">Hypocalcemia &mdash; increased neuromuscular excitability</td>
+            <td class="cell-high">Hypercalcemia &mdash; altered neuromuscular excitability</td>
+          </tr>
+          <tr>
+            <td>Magnesium</td>
+            <td class="cell-low">Hypomagnesemia &mdash; tremors, muscle cramps</td>
+            <td class="cell-high">Hypermagnesemia &mdash; tremors, muscle cramps</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- MODULE 4 -->
+  <section class="module" id="module-4">
+    <div class="module-head">
+      <span class="module-num">MODULE 4</span>
+      <h2>Nucleic Acids</h2>
     </div>
     <p class="module-intro">How the body stores and transmits the instructions needed to build and maintain itself.</p>
 
